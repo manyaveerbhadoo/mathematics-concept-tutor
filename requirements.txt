@@ -1,0 +1,3 @@
+sympy>=1.12
+discord.py>=2.3
+python-dotenv>=1.0

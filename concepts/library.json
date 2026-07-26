@@ -1,0 +1,427 @@
+{
+  "_README": "Every word the bot says about math comes from this file. It is plain data, not code -- an instructor can read, edit, or reject any entry without programming. Fields: id, name, topic, prereqs (ids the student needs first), keywords (for matching), plain (beginner explanation), rule (the formal statement), why (intuition for why it is allowed), example (worked with DIFFERENT numbers than any homework), mistake (the common trap).",
+  "concepts": [
+    {
+      "id": "distributive-property",
+      "name": "The Distributive Property",
+      "topic": "algebra-foundations",
+      "prereqs": [],
+      "keywords": [
+        "distribute",
+        "expand",
+        "multiply out",
+        "foil",
+        "brackets",
+        "parentheses"
+      ],
+      "plain": "When something multiplies a group in parentheses, it has to multiply EVERY term inside -- not just the first one. Think of 3(x + 2) as '3 groups of (x + 2)'. Three groups of x, plus three groups of 2.",
+      "ask": "How many terms are inside the parentheses? Every single one has to get multiplied. How many products should you end up with?",
+      "rule": "a(b + c) = ab + ac",
+      "why": "Multiplication is repeated addition. 3(x + 2) means (x+2) + (x+2) + (x+2). Collect the x's and you get 3x; collect the 2's and you get 6.",
+      "example": {
+        "problem": "Expand 4(y + 5)",
+        "steps": [
+          "4 multiplies y  ->  4y",
+          "4 multiplies 5  ->  20",
+          "Answer: 4y + 20"
+        ],
+        "note": "Notice the 4 touched BOTH terms."
+      },
+      "mistake": "Only multiplying the first term: writing 4(y + 5) = 4y + 5. The 5 got left behind."
+    },
+    {
+      "id": "gcf-factoring",
+      "name": "Factoring Out the Greatest Common Factor",
+      "topic": "polynomials",
+      "prereqs": [
+        "distributive-property"
+      ],
+      "keywords": [
+        "gcf",
+        "common factor",
+        "factor out",
+        "pull out",
+        "greatest common"
+      ],
+      "plain": "This is the distributive property run backwards. Instead of multiplying out, you look for something every term shares and pull it to the front.",
+      "ask": "What is the biggest thing that divides into EVERY term? Check the numbers first, then the letters.",
+      "rule": "ab + ac = a(b + c)",
+      "why": "Nothing is being changed -- you are just rewriting the same quantity in a different shape. Multiply it back out and you get exactly what you started with. That is your built-in check.",
+      "example": {
+        "problem": "Factor 6x + 9",
+        "steps": [
+          "What divides both 6 and 9? -> 3",
+          "6x = 3 * 2x, and 9 = 3 * 3",
+          "Pull the 3 out front: 3(2x + 3)"
+        ],
+        "note": "Check it: 3(2x + 3) = 6x + 9. Back where we started, so it is right."
+      },
+      "mistake": "Taking out a factor that is not actually in every term, or forgetting to leave a 1 behind (5x + 5 = 5(x + 1), not 5(x))."
+    },
+    {
+      "id": "factoring-quadratic-simple",
+      "name": "Factoring x^2 + bx + c",
+      "topic": "polynomials",
+      "prereqs": [
+        "distributive-property",
+        "gcf-factoring"
+      ],
+      "keywords": [
+        "factor quadratic",
+        "factoring trinomial",
+        "two numbers",
+        "x squared plus"
+      ],
+      "plain": "You are looking for two numbers that MULTIPLY to the last number and ADD to the middle number. That is the whole trick.",
+      "ask": "What two numbers multiply to your last term and add to your middle one? Try listing the factor pairs of the last number first.",
+      "rule": "x^2 + bx + c = (x + m)(x + n), where m*n = c and m + n = b",
+      "why": "Multiply (x + m)(x + n) out and you get x^2 + (m+n)x + mn. So the middle coefficient is always the sum, and the last is always the product. Factoring just reads that backwards.",
+      "example": {
+        "problem": "Factor x^2 + 7x + 12",
+        "steps": [
+          "Need two numbers that multiply to 12 and add to 7",
+          "Pairs for 12: (1,12), (2,6), (3,4)",
+          "3 + 4 = 7  <- that is the one",
+          "Answer: (x + 3)(x + 4)"
+        ],
+        "note": "The signs matter: if c is positive and b is negative, both numbers are negative."
+      },
+      "mistake": "Finding numbers that add correctly but multiply wrong, or getting signs backwards. Always multiply your answer back out to check."
+    },
+    {
+      "id": "difference-of-squares",
+      "name": "Difference of Squares",
+      "topic": "polynomials",
+      "prereqs": [
+        "distributive-property"
+      ],
+      "keywords": [
+        "difference of squares",
+        "a squared minus b squared",
+        "x^2 - 9"
+      ],
+      "plain": "Whenever you see one perfect square MINUS another perfect square, it factors instantly. No searching required -- just recognize the shape.",
+      "ask": "Are both of your terms perfect squares? And is there a minus sign between them? If yes to both, you already know the shape.",
+      "rule": "a^2 - b^2 = (a + b)(a - b)",
+      "why": "Multiply (a+b)(a-b) out: you get a^2 - ab + ab - b^2. The middle terms cancel exactly, leaving a^2 - b^2.",
+      "example": {
+        "problem": "Factor x^2 - 25",
+        "steps": [
+          "Is x^2 a perfect square? Yes, it is x squared.",
+          "Is 25 a perfect square? Yes, 5 squared.",
+          "It is a MINUS between them, so the pattern applies",
+          "Answer: (x + 5)(x - 5)"
+        ],
+        "note": "This only works for minus. x^2 + 25 does not factor over the real numbers."
+      },
+      "mistake": "Trying it on a SUM. There is no real factoring of a^2 + b^2."
+    },
+    {
+      "id": "factoring-by-grouping",
+      "name": "Factoring by Grouping",
+      "topic": "polynomials",
+      "prereqs": [
+        "gcf-factoring",
+        "factoring-quadratic-simple"
+      ],
+      "keywords": [
+        "grouping",
+        "four terms",
+        "split the middle",
+        "ac method"
+      ],
+      "plain": "When there are four terms, split them into two pairs, factor each pair on its own, and then a shared bracket appears that you can factor out. It feels like magic the first time.",
+      "ask": "Split your four terms into two pairs. What does each pair have in common? Do both pairs leave you the same bracket?",
+      "rule": "ax + ay + bx + by = a(x + y) + b(x + y) = (a + b)(x + y)",
+      "why": "You are just applying GCF twice -- once inside each pair, then once more on the bracket they turn out to share. If the brackets do NOT match, regroup and try again.",
+      "example": {
+        "problem": "Factor 2x + 2y + 3x*z + 3y*z",
+        "steps": [
+          "Group them: (2x + 2y) + (3xz + 3yz)",
+          "Factor each pair: 2(x + y) + 3z(x + y)",
+          "Both pairs share (x + y)",
+          "Pull it out: (2 + 3z)(x + y)"
+        ],
+        "note": "The shared bracket appearing is the sign you grouped correctly."
+      },
+      "mistake": "Grouping so the brackets do not match, then forcing it. If they do not match, that is information -- swap the middle terms and regroup."
+    },
+    {
+      "id": "log-definition",
+      "name": "What a Logarithm Actually Is",
+      "topic": "logarithms",
+      "prereqs": [],
+      "keywords": [
+        "what is a log",
+        "logarithm definition",
+        "log meaning",
+        "convert log to exponent"
+      ],
+      "plain": "A logarithm is just asking 'what power do I raise this base to?' When you read log base 2 of 8, read it as: '2 to the WHAT gives 8?' The answer is 3. That is all a log is -- a question about an exponent.",
+      "ask": "Read it out loud as a question: 'this base to the WHAT gives that number?' What power would do it?",
+      "rule": "log_b(x) = y  means exactly the same thing as  b^y = x",
+      "why": "Logs and exponents are the same relationship viewed from two directions, like addition and subtraction. Whenever a log confuses you, rewrite it as an exponent and it usually becomes obvious.",
+      "example": {
+        "problem": "Find log_3(81)",
+        "steps": [
+          "Read it as: 3 to the what gives 81?",
+          "3^1=3, 3^2=9, 3^3=27, 3^4=81",
+          "The answer is 4"
+        ],
+        "note": "This rewriting trick unlocks almost every log problem you will see."
+      },
+      "mistake": "Thinking log_b(x) means b times x, or forgetting that in pre-calculus a bare 'log' means base 10 while 'ln' means base e."
+    },
+    {
+      "id": "log-product-rule",
+      "name": "The Product Rule for Logs",
+      "topic": "logarithms",
+      "prereqs": [
+        "log-definition"
+      ],
+      "keywords": [
+        "log product",
+        "log of a product",
+        "adding logs",
+        "split a log"
+      ],
+      "plain": "A log of things multiplied together becomes the logs ADDED. Multiplication on the inside turns into addition on the outside.",
+      "ask": "Look inside the log. Are those things multiplied, or added? The rule only fires for multiplication -- which do you have?",
+      "rule": "log_b(M * N) = log_b(M) + log_b(N)",
+      "why": "It comes straight from the exponent rule b^m * b^n = b^(m+n). Logs read off exponents, and exponents add when you multiply -- so logs add too.",
+      "example": {
+        "problem": "Expand log_3(9 * 27)",
+        "steps": [
+          "Multiplication inside becomes addition outside",
+          "log_3(9) + log_3(27)",
+          "= 2 + 3 = 5"
+        ],
+        "note": "Check: 9 * 27 = 243, and 3^5 = 243. It agrees."
+      },
+      "mistake": "The big one: writing log(M + N) = log(M) + log(N). That is FALSE. The rule is only for multiplication inside, and there is no rule at all for a sum inside."
+    },
+    {
+      "id": "log-quotient-rule",
+      "name": "The Quotient Rule for Logs",
+      "topic": "logarithms",
+      "prereqs": [
+        "log-definition",
+        "log-product-rule"
+      ],
+      "keywords": [
+        "log quotient",
+        "log of a fraction",
+        "subtracting logs",
+        "log division"
+      ],
+      "plain": "A log of a fraction becomes the logs SUBTRACTED -- top minus bottom. Division on the inside turns into subtraction on the outside.",
+      "ask": "Which part is on top and which is on the bottom? The order matters here: it is top minus bottom, never the other way.",
+      "rule": "log_b(M / N) = log_b(M) - log_b(N)",
+      "why": "Same source as the product rule: b^m / b^n = b^(m-n). Dividing subtracts exponents, so it subtracts logs.",
+      "example": {
+        "problem": "Expand log_2(16 / 2)",
+        "steps": [
+          "Division inside becomes subtraction outside",
+          "log_2(16) - log_2(2)",
+          "= 4 - 1 = 3"
+        ],
+        "note": "Check: 16/2 = 8, and 2^3 = 8. Agrees."
+      },
+      "mistake": "Getting the order backwards. It is top minus bottom, never bottom minus top."
+    },
+    {
+      "id": "log-power-rule",
+      "name": "The Power Rule for Logs",
+      "topic": "logarithms",
+      "prereqs": [
+        "log-definition"
+      ],
+      "keywords": [
+        "log power",
+        "exponent inside log",
+        "bring down the exponent",
+        "log of x to the n"
+      ],
+      "plain": "An exponent inside a log can slide down to the front and become a multiplier. This is the single most useful log rule, because it is how you get a variable out of an exponent.",
+      "ask": "Where is the exponent sitting -- inside the parentheses or outside? Only an exponent on the inside is allowed to come down.",
+      "rule": "log_b(M^p) = p * log_b(M)",
+      "why": "M^p means M multiplied by itself p times, and the product rule turns each multiplication into an addition -- so you get log(M) added p times, which is p * log(M).",
+      "example": {
+        "problem": "Expand log_5(25^3)",
+        "steps": [
+          "The exponent 3 comes down in front",
+          "3 * log_5(25)",
+          "log_5(25) = 2, so this is 3 * 2 = 6"
+        ],
+        "note": "This is the rule that rescues you whenever x is stuck up in an exponent."
+      },
+      "mistake": "Bringing down an exponent that belongs to the whole log rather than the inside. (log x)^2 is NOT 2 log x -- the exponent must be INSIDE the parentheses."
+    },
+    {
+      "id": "solving-exponential-equations",
+      "name": "Solving When x Is in the Exponent",
+      "topic": "exponentials",
+      "prereqs": [
+        "log-definition",
+        "log-power-rule"
+      ],
+      "keywords": [
+        "solve exponential",
+        "x in the exponent",
+        "take the log of both sides",
+        "3^x = 20"
+      ],
+      "plain": "If the unknown is stuck up in an exponent, you cannot reach it with ordinary algebra. Take a log of both sides -- that is the tool that brings it down where you can work with it.",
+      "ask": "Your unknown is stuck up in the exponent. What operation undoes an exponent and brings it back down where you can work with it?",
+      "rule": "If b^x = k, then x = log_b(k). Or take log of both sides and use the power rule.",
+      "why": "The power rule lets the exponent slide down to the front, turning an exponent problem into an ordinary multiplication problem.",
+      "example": {
+        "problem": "Solve 2^x = 7",
+        "steps": [
+          "Take log of both sides: log(2^x) = log(7)",
+          "Power rule brings x down: x * log(2) = log(7)",
+          "Now it is ordinary algebra: x = log(7) / log(2)"
+        ],
+        "note": "Notice that once x came down, the problem became easy. That was the whole point of the log."
+      },
+      "mistake": "Dividing by the base instead. 2^x = 7 does NOT give x = 7/2. You cannot divide an exponent away."
+    },
+    {
+      "id": "domain-of-rational",
+      "name": "Domain of a Rational Function",
+      "topic": "rational-functions",
+      "prereqs": [],
+      "keywords": [
+        "domain",
+        "denominator zero",
+        "undefined",
+        "excluded values",
+        "restrictions"
+      ],
+      "plain": "A fraction breaks if the bottom is zero -- division by zero has no meaning. So the domain is every real number EXCEPT the values that make the denominator zero. To find them, set the denominator equal to zero and solve.",
+      "ask": "What value of x would make the BOTTOM of your fraction equal zero? That is the one spot the function cannot exist.",
+      "rule": "For f(x) = p(x)/q(x), the domain is all real x with q(x) != 0.",
+      "why": "Division asks 'how many of these fit into that?' Asking how many zeros fit into 5 has no answer, so the function has no value there.",
+      "example": {
+        "problem": "Find the domain of f(x) = 1 / (x - 4)",
+        "steps": [
+          "Set the denominator to zero: x - 4 = 0",
+          "Solve: x = 4",
+          "Domain: all real numbers except x = 4"
+        ],
+        "note": "You solve the denominator NOT because you want it to be zero, but to find the one place you must avoid."
+      },
+      "mistake": "Setting the numerator to zero instead. The numerator being zero is fine -- that just gives an x-intercept."
+    },
+    {
+      "id": "simplify-rational",
+      "name": "Simplifying Rational Expressions",
+      "topic": "rational-functions",
+      "prereqs": [
+        "gcf-factoring",
+        "factoring-quadratic-simple",
+        "domain-of-rational"
+      ],
+      "keywords": [
+        "simplify fraction",
+        "cancel",
+        "reduce rational",
+        "common factor cancel"
+      ],
+      "plain": "Factor the top, factor the bottom, then cancel factors that appear in both. The key word is FACTORS -- things being multiplied. You can never cancel across a plus or minus sign.",
+      "ask": "Is the thing you want to cancel a factor of the WHOLE top and the WHOLE bottom -- or is it just one term inside a sum? Factor both first, then look again.",
+      "rule": "(a*c) / (b*c) = a/b, provided c != 0",
+      "why": "Anything divided by itself is 1, so a matching factor on top and bottom becomes 1 and disappears. But that only works when it is a factor of the WHOLE top and the WHOLE bottom.",
+      "example": {
+        "problem": "Simplify (x^2 - 9) / (x + 3)",
+        "steps": [
+          "Factor the top -- it is a difference of squares: (x+3)(x-3)",
+          "Now: (x+3)(x-3) / (x+3)",
+          "(x+3) is a factor of both, so it cancels",
+          "Answer: x - 3, with x != -3"
+        ],
+        "note": "The restriction x != -3 stays with you even after cancelling, because the original expression was undefined there."
+      },
+      "mistake": "Cancelling terms instead of factors. In (x + 2)/x you cannot cancel the x's -- the top is a SUM, not a product."
+    },
+    {
+      "id": "pythagorean-identity",
+      "name": "The Pythagorean Identity",
+      "topic": "trigonometry",
+      "prereqs": [],
+      "keywords": [
+        "sin squared plus cos squared",
+        "pythagorean identity",
+        "trig identity",
+        "sin^2 + cos^2"
+      ],
+      "plain": "For ANY angle at all, sine squared plus cosine squared equals exactly 1. Always. This lets you swap one for the other whenever it makes an expression simpler.",
+      "ask": "You have a squared sine or cosine. What does sin^2 + cos^2 always equal? Can you rearrange that to swap out the piece you have?",
+      "rule": "sin^2(x) + cos^2(x) = 1",
+      "why": "On the unit circle, cos is the horizontal distance and sin is the vertical distance to a point on a circle of radius 1. The Pythagorean theorem on that little triangle says horizontal^2 + vertical^2 = radius^2 = 1. It is literally a^2 + b^2 = c^2 in disguise.",
+      "example": {
+        "problem": "Simplify 1 - sin^2(t)",
+        "steps": [
+          "The identity rearranges to cos^2 = 1 - sin^2",
+          "So 1 - sin^2(t) is exactly cos^2(t)"
+        ],
+        "note": "Learn all three forms: sin^2 + cos^2 = 1, sin^2 = 1 - cos^2, cos^2 = 1 - sin^2."
+      },
+      "mistake": "Writing sin(x^2) instead of sin^2(x). These are completely different -- sin^2(x) means (sin x) * (sin x)."
+    },
+    {
+      "id": "absolute-value-equations",
+      "name": "Absolute Value Equations Have Two Cases",
+      "topic": "absolute-value",
+      "prereqs": [],
+      "keywords": [
+        "absolute value",
+        "two cases",
+        "modulus",
+        "|x| = 5",
+        "split into cases"
+      ],
+      "plain": "Absolute value means distance from zero, and distance ignores direction. So if |something| = 5, that something could be 5 OR -5. You must split into two separate equations and solve both.",
+      "ask": "Absolute value throws away the sign. If the distance is 3, what TWO numbers could have been inside? Write both equations down.",
+      "rule": "If |A| = k with k >= 0, then A = k or A = -k.",
+      "why": "Both 5 and -5 sit exactly 5 units from zero. The absolute value threw away the sign, so when you undo it you have to put both possibilities back.",
+      "example": {
+        "problem": "Solve |x - 1| = 3",
+        "steps": [
+          "Case 1: x - 1 = 3, so x = 4",
+          "Case 2: x - 1 = -3, so x = -2",
+          "Both are solutions"
+        ],
+        "note": "Always check both answers in the original equation."
+      },
+      "mistake": "Only solving the positive case and losing half the solutions. Also: |A| = -2 has NO solution, since distance can never be negative."
+    },
+    {
+      "id": "exponent-rules",
+      "name": "The Exponent Rules",
+      "topic": "exponentials",
+      "prereqs": [],
+      "keywords": [
+        "exponent rules",
+        "power rules",
+        "multiply exponents",
+        "add exponents",
+        "negative exponent"
+      ],
+      "plain": "Every exponent rule comes from one idea: an exponent counts how many copies are multiplied. Multiply powers of the same base and you are just pooling copies, so you add. Divide and you are cancelling copies, so you subtract.",
+      "ask": "Are the bases the same? And are you multiplying, dividing, or raising a power to another power? Each one does something different to the exponents.",
+      "rule": "b^m * b^n = b^(m+n);  b^m / b^n = b^(m-n);  (b^m)^n = b^(m*n);  b^0 = 1;  b^(-n) = 1/b^n",
+      "why": "b^2 * b^3 is (b*b) * (b*b*b) = five b's = b^5. You never memorized anything -- you just counted.",
+      "example": {
+        "problem": "Simplify (x^3 * x^4) / x^2",
+        "steps": [
+          "Top: same base multiplied, so add: x^(3+4) = x^7",
+          "Now divide: subtract exponents: x^(7-2)",
+          "Answer: x^5"
+        ],
+        "note": "When stuck, write out the copies and count. The rule will reappear on its own."
+      },
+      "mistake": "Multiplying exponents when you should add. x^2 * x^3 is x^5, not x^6. Multiply exponents only for a power OF a power."
+    }
+  ]
+}
