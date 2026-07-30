@@ -1,6 +1,6 @@
-# Math 1B Concept Tutor
+# Mathematics Concept Tutor
 
-A Discord bot for UCI **MATH 1B (Pre-Calculus II)** that explains the *idea* behind a step a student is stuck on — and never gives away an answer.
+A Discord bot for UCI **MATHEMATICS (Pre-Calculus II)** that explains the *idea* behind a step a student is stuck on — and never gives away an answer.
 
 Built by Manyaveer Bhadoo, Learning Assistant, Fall 2026.
 
