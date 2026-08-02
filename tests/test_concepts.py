@@ -88,6 +88,32 @@ def run():
 
     print()
     print("=" * 70)
+    print("TEST 5 — the bot ASKS, it doesn't TELL")
+    print("=" * 70)
+    # The default reply is questions only. This guards the core teaching rule:
+    # if someone later writes a 'question' that's really a statement handing
+    # over a conclusion, this fails.
+    for c in lib.concepts.values():
+        problems = []
+        if len(c.questions) < 3:
+            problems.append(f"only {len(c.questions)} questions (need 3+)")
+        asked = sum(1 for q in c.questions if q.rstrip().endswith("?"))
+        if c.questions and asked / len(c.questions) < 0.5:
+            problems.append(f"only {asked}/{len(c.questions)} actually ask something")
+        for q in c.questions:
+            low = q.lower()
+            for tell in ("this means that", "so the answer is", "therefore the answer"):
+                if tell in low:
+                    problems.append(f"states a conclusion: '{q[:40]}...'")
+        ok = not problems
+        passed, failed = (passed + 1, failed) if ok else (passed, failed + 1)
+        if not ok:
+            print(f"  [FAIL] {c.id}: {'; '.join(problems)}")
+    total_q = sum(len(c.questions) for c in lib.concepts.values())
+    print(f"  checked {len(lib.concepts)} ladders, {total_q} questions total")
+
+    print()
+    print("=" * 70)
     print("SAMPLE OUTPUT — student asks: 'I don't get factoring by grouping'")
     print("=" * 70)
     hit = lib.search("I don't get factoring by grouping")[0]

@@ -1,5 +1,5 @@
 {
-  "_README": "Every word the bot says about math comes from this file. It is plain data, not code -- an instructor can read, edit, or reject any entry without programming. Fields: id, name, topic, prereqs (ids the student needs first), keywords (for matching), plain (beginner explanation), rule (the formal statement), why (intuition for why it is allowed), example (worked with DIFFERENT numbers than any homework), mistake (the common trap).",
+  "_README": "Every word the bot says about math comes from this file. It is plain data, not code -- an instructor can read, edit, or reject any entry without programming. The MOST IMPORTANT field is 'questions': the ordered ladder the bot asks. Rule for writing them -- never state a conclusion the student could reach on their own. The bot shows only these questions by default; 'rule', 'why' and 'mistake' are held back behind /hint, and 'example' behind /example.",
   "concepts": [
     {
       "id": "distributive-property",
@@ -27,7 +27,13 @@
         ],
         "note": "Notice the 4 touched BOTH terms."
       },
-      "mistake": "Only multiplying the first term: writing 4(y + 5) = 4y + 5. The 5 got left behind."
+      "mistake": "Only multiplying the first term: writing 4(y + 5) = 4y + 5. The 5 got left behind.",
+      "questions": [
+        "In {expr}, how many separate terms are inside the parentheses?",
+        "So how many separate multiplications should you end up doing?",
+        "Do all of them. What do you get?",
+        "Check yourself: does every term inside show up in your answer?"
+      ]
     },
     {
       "id": "gcf-factoring",
@@ -56,7 +62,14 @@
         ],
         "note": "Check it: 3(2x + 3) = 6x + 9. Back where we started, so it is right."
       },
-      "mistake": "Taking out a factor that is not actually in every term, or forgetting to leave a 1 behind (5x + 5 = 5(x + 1), not 5(x))."
+      "mistake": "Taking out a factor that is not actually in every term, or forgetting to leave a 1 behind (5x + 5 = 5(x + 1), not 5(x)).",
+      "when_stuck": "If the only thing shared is 1, there is no GCF to pull out. Move on to a different factoring method.",
+      "questions": [
+        "Your terms are {terms}. What is the largest number that divides into every one of them?",
+        "Is there a letter that appears in all of them too? What is the lowest power it appears at?",
+        "Pull all of that out to the front. What is left inside the bracket?",
+        "Multiply your answer back out. Do you land exactly where you started?"
+      ]
     },
     {
       "id": "factoring-quadratic-simple",
@@ -86,7 +99,15 @@
         ],
         "note": "The signs matter: if c is positive and b is negative, both numbers are negative."
       },
-      "mistake": "Finding numbers that add correctly but multiply wrong, or getting signs backwards. Always multiply your answer back out to check."
+      "mistake": "Finding numbers that add correctly but multiply wrong, or getting signs backwards. Always multiply your answer back out to check.",
+      "when_stuck": "If you try every factor pair and none of them add up right, that is not your mistake -- it means this one does not factor over the integers. That is your signal to switch to the quadratic formula.",
+      "questions": [
+        "In {expr}, what is your b (the middle number) and your c (the last one)?",
+        "Write down every pair of whole numbers that multiplies to give {c}. All of them.",
+        "Which of those pairs adds up to {b}?",
+        "If none of them do -- what do you think that tells you about this quadratic?",
+        "If you found a pair: multiply your factors back out. Does it match the original?"
+      ]
     },
     {
       "id": "difference-of-squares",
@@ -114,7 +135,15 @@
         ],
         "note": "This only works for minus. x^2 + 25 does not factor over the real numbers."
       },
-      "mistake": "Trying it on a SUM. There is no real factoring of a^2 + b^2."
+      "mistake": "Trying it on a SUM. There is no real factoring of a^2 + b^2.",
+      "when_stuck": "If it is a SUM of squares, stop looking -- it does not factor over the real numbers. That is a real answer, not a failure.",
+      "questions": [
+        "Look at {expr}. Is the sign between the two terms a plus or a minus? Does that matter?",
+        "What, when squared, gives you {t1}?",
+        "And what, when squared, gives you {t2}?",
+        "Multiply (a + b)(a - b) out on paper. What happens to the two middle terms?",
+        "So what does that tell you to write for your expression?"
+      ]
     },
     {
       "id": "factoring-by-grouping",
@@ -144,7 +173,15 @@
         ],
         "note": "The shared bracket appearing is the sign you grouped correctly."
       },
-      "mistake": "Grouping so the brackets do not match, then forcing it. If they do not match, that is information -- swap the middle terms and regroup."
+      "mistake": "Grouping so the brackets do not match, then forcing it. If they do not match, that is information -- swap the middle terms and regroup.",
+      "when_stuck": "If no regrouping makes the brackets match, the quadratic formula will still solve it. Factoring is the fast route, not the only route.",
+      "questions": [
+        "How many terms does {expr} have? Does that number suggest a strategy?",
+        "Split them into two pairs. What does the first pair share? What does the second share?",
+        "Factor each pair on its own. Did both pairs leave you the same bracket?",
+        "If the brackets do not match -- what happens if you reorder the middle terms and regroup?",
+        "Once they match, what is left to factor out?"
+      ]
     },
     {
       "id": "log-definition",
@@ -170,7 +207,13 @@
         ],
         "note": "This rewriting trick unlocks almost every log problem you will see."
       },
-      "mistake": "Thinking log_b(x) means b times x, or forgetting that in pre-calculus a bare 'log' means base 10 while 'ln' means base e."
+      "mistake": "Thinking log_b(x) means b times x, or forgetting that in pre-calculus a bare 'log' means base 10 while 'ln' means base e.",
+      "questions": [
+        "Read {expr} out loud as a question: 'this base, to the WHAT, gives that number?'",
+        "Start multiplying the base by itself. How many times before you reach the number?",
+        "Write what you just did in exponent form. What is the exponent?",
+        "So what does the log equal?"
+      ]
     },
     {
       "id": "log-product-rule",
@@ -198,7 +241,13 @@
         ],
         "note": "Check: 9 * 27 = 243, and 3^5 = 243. It agrees."
       },
-      "mistake": "The big one: writing log(M + N) = log(M) + log(N). That is FALSE. The rule is only for multiplication inside, and there is no rule at all for a sum inside."
+      "mistake": "The big one: writing log(M + N) = log(M) + log(N). That is FALSE. The rule is only for multiplication inside, and there is no rule at all for a sum inside.",
+      "questions": [
+        "Look at what is inside your log: {inside}. Are those pieces multiplied, added, or divided?",
+        "Now think about exponents: when you work out b^m times b^n, what happens to m and n?",
+        "A log just reads off an exponent. So what should happen to the two logs?",
+        "Test the trap yourself: is log(2 + 2) the same as log(2) + log(2)? Work out both."
+      ]
     },
     {
       "id": "log-quotient-rule",
@@ -227,7 +276,13 @@
         ],
         "note": "Check: 16/2 = 8, and 2^3 = 8. Agrees."
       },
-      "mistake": "Getting the order backwards. It is top minus bottom, never bottom minus top."
+      "mistake": "Getting the order backwards. It is top minus bottom, never bottom minus top.",
+      "questions": [
+        "Inside your log, which part is on top and which is on the bottom?",
+        "When you work out b^m divided by b^n, what happens to the exponents?",
+        "So which way round does your subtraction go -- and how would you check you have it the right way?",
+        "Try it with numbers you know: does log_2(16/2) give the same as log_2(16) - log_2(2)?"
+      ]
     },
     {
       "id": "log-power-rule",
@@ -255,7 +310,13 @@
         ],
         "note": "This is the rule that rescues you whenever x is stuck up in an exponent."
       },
-      "mistake": "Bringing down an exponent that belongs to the whole log rather than the inside. (log x)^2 is NOT 2 log x -- the exponent must be INSIDE the parentheses."
+      "mistake": "Bringing down an exponent that belongs to the whole log rather than the inside. (log x)^2 is NOT 2 log x -- the exponent must be INSIDE the parentheses.",
+      "questions": [
+        "In {inside}, is the exponent inside the parentheses or outside them? Does that change anything?",
+        "{inside} means the base multiplied by itself how many times?",
+        "If a log turns multiplication into addition, what does that repeated multiplication become?",
+        "Would (log x)^2 behave the same way? Try it with x = 100 and see."
+      ]
     },
     {
       "id": "solving-exponential-equations",
@@ -284,7 +345,14 @@
         ],
         "note": "Notice that once x came down, the problem became easy. That was the whole point of the log."
       },
-      "mistake": "Dividing by the base instead. 2^x = 7 does NOT give x = 7/2. You cannot divide an exponent away."
+      "mistake": "Dividing by the base instead. 2^x = 7 does NOT give x = 7/2. You cannot divide an exponent away.",
+      "when_stuck": "If both sides can be written with the SAME base, you can skip logs entirely and just set the exponents equal.",
+      "questions": [
+        "In {expr}, where exactly is the unknown sitting?",
+        "Can you reach it using only adding, subtracting, multiplying or dividing? Try -- what stops you?",
+        "What operation is the opposite of raising something to a power?",
+        "Apply that to both sides. What happens to the exponent?"
+      ]
     },
     {
       "id": "domain-of-rational",
@@ -311,7 +379,13 @@
         ],
         "note": "You solve the denominator NOT because you want it to be zero, but to find the one place you must avoid."
       },
-      "mistake": "Setting the numerator to zero instead. The numerator being zero is fine -- that just gives an x-intercept."
+      "mistake": "Setting the numerator to zero instead. The numerator being zero is fine -- that just gives an x-intercept.",
+      "questions": [
+        "Your denominator is {den}. What is the one value a denominator is never allowed to equal?",
+        "Set {den} equal to that value and solve. What x comes out?",
+        "So what is the domain? Say it in words before you write it in symbols.",
+        "Does the top of the fraction being zero cause any problem? Why or why not?"
+      ]
     },
     {
       "id": "simplify-rational",
@@ -342,7 +416,14 @@
         ],
         "note": "The restriction x != -3 stays with you even after cancelling, because the original expression was undefined there."
       },
-      "mistake": "Cancelling terms instead of factors. In (x + 2)/x you cannot cancel the x's -- the top is a SUM, not a product."
+      "mistake": "Cancelling terms instead of factors. In (x + 2)/x you cannot cancel the x's -- the top is a SUM, not a product.",
+      "when_stuck": "If nothing cancels after you factor both top and bottom, then it is already in simplest form. Not every fraction reduces.",
+      "questions": [
+        "Factor the top of {expr} completely. Now factor the bottom. What do you have?",
+        "Is there a bracket that appears in both?",
+        "Before you cancel: is that thing multiplying the WHOLE top and WHOLE bottom, or is it one term inside a sum?",
+        "After cancelling, is there a value of x the original could never take? Does that restriction still apply?"
+      ]
     },
     {
       "id": "pythagorean-identity",
@@ -367,7 +448,13 @@
         ],
         "note": "Learn all three forms: sin^2 + cos^2 = 1, sin^2 = 1 - cos^2, cos^2 = 1 - sin^2."
       },
-      "mistake": "Writing sin(x^2) instead of sin^2(x). These are completely different -- sin^2(x) means (sin x) * (sin x)."
+      "mistake": "Writing sin(x^2) instead of sin^2(x). These are completely different -- sin^2(x) means (sin x) * (sin x).",
+      "questions": [
+        "What does sin^2 + cos^2 always add up to, for any angle at all?",
+        "Rearrange that equation. What does 1 - sin^2 equal on its own?",
+        "Now look at {expr}. Which of those rearranged forms is hiding inside it?",
+        "Why is this true? Sketch a right triangle inside a circle of radius 1 and see what Pythagoras gives you."
+      ]
     },
     {
       "id": "absolute-value-equations",
@@ -394,7 +481,14 @@
         ],
         "note": "Always check both answers in the original equation."
       },
-      "mistake": "Only solving the positive case and losing half the solutions. Also: |A| = -2 has NO solution, since distance can never be negative."
+      "mistake": "Only solving the positive case and losing half the solutions. Also: |A| = -2 has NO solution, since distance can never be negative.",
+      "when_stuck": "If the absolute value equals a negative number, there is no solution at all. Check this before you split into cases.",
+      "questions": [
+        "What does absolute value actually measure? Distance from what?",
+        "If the distance from zero is 3, how many different numbers could you have started with?",
+        "So how many separate equations do you need to write? Write them both.",
+        "What if the right-hand side were a negative number -- how many solutions then, and why?"
+      ]
     },
     {
       "id": "exponent-rules",
@@ -421,7 +515,51 @@
         ],
         "note": "When stuck, write out the copies and count. The rule will reappear on its own."
       },
-      "mistake": "Multiplying exponents when you should add. x^2 * x^3 is x^5, not x^6. Multiply exponents only for a power OF a power."
+      "mistake": "Multiplying exponents when you should add. x^2 * x^3 is x^5, not x^6. Multiply exponents only for a power OF a power.",
+      "questions": [
+        "In {expr}, are the bases the same or different? Does that matter?",
+        "Are you multiplying the powers, dividing them, or raising a power to another power?",
+        "Write the base out longhand as repeated copies. How many copies do you end up with?",
+        "So what did that operation do to the exponents? Does your rule match what you counted?"
+      ]
+    },
+    {
+      "id": "quadratic-formula",
+      "name": "The Quadratic Formula",
+      "topic": "polynomials",
+      "prereqs": [
+        "factoring-quadratic-simple"
+      ],
+      "keywords": [
+        "quadratic formula",
+        "discriminant",
+        "b squared minus 4ac",
+        "does not factor",
+        "wont factor"
+      ],
+      "plain": "When a quadratic refuses to factor into whole numbers, the quadratic formula solves it anyway. It always works -- for every quadratic, no exceptions. Factoring is just the shortcut you try first.",
+      "ask": "Write down your a, b and c first. Then work out b^2 - 4ac on its own before you touch the rest -- that one number tells you what kind of answer to expect.",
+      "rule": "For ax^2 + bx + c = 0:   x = (-b +/- sqrt(b^2 - 4ac)) / (2a)",
+      "why": "It comes from completing the square on the general form ax^2 + bx + c. Every step you would do by hand, done once, in general -- so you never have to do it again.",
+      "example": {
+        "problem": "Solve 2x^2 + 3x - 1 = 0",
+        "steps": [
+          "a = 2, b = 3, c = -1",
+          "Discriminant: b^2 - 4ac = 9 - 4(2)(-1) = 9 + 8 = 17",
+          "17 is not a perfect square, so this was never going to factor",
+          "x = (-3 +/- sqrt(17)) / 4"
+        ],
+        "note": "Checking the discriminant FIRST tells you whether factoring is even worth attempting."
+      },
+      "mistake": "Forgetting that -b means the opposite of b, so a negative b becomes positive. And dividing only part of the numerator by 2a instead of all of it.",
+      "when_stuck": "If b^2 - 4ac comes out negative, there are no real solutions. The parabola never crosses the x-axis.",
+      "questions": [
+        "For {expr}, write down a, b and c.",
+        "Work out b^2 - 4ac on its own. What number do you get?",
+        "Is that number a perfect square? Check it.",
+        "What do you think your answer to that tells you about whether this factors into whole numbers?",
+        "Now substitute a, b and c into the formula. What do you get?"
+      ]
     }
   ]
 }

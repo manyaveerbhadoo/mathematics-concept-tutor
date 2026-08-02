@@ -114,6 +114,42 @@ async def stuck(interaction: discord.Interaction, expression: str):
     await _reply(interaction, r.to_text())
 
 
+@tree.command(name="hint", description="Only after you've tried the questions: the rule behind it")
+@app_commands.describe(concept="The concept id, e.g. factoring-quadratic-simple")
+async def hint(interaction: discord.Interaction, concept: str):
+    if not await _guard(interaction):
+        return
+    r = explain_concept_by_id(concept.strip().lower())
+    log_event(interaction.user.id, "hint", r.log_concept_id or None, 1.0)
+    await _reply(interaction, r.to_text(tier="hint"))
+
+
+@hint.autocomplete("concept")
+async def _hint_ac(interaction: discord.Interaction, current: str):
+    cur = (current or "").lower()
+    hits = [c for c in library().concepts.values()
+            if cur in c.id or cur in c.name.lower()][:25]
+    return [app_commands.Choice(name=c.name, value=c.id) for c in hits]
+
+
+@tree.command(name="example", description="Last resort: one worked through with different numbers")
+@app_commands.describe(concept="The concept id, e.g. factoring-quadratic-simple")
+async def example(interaction: discord.Interaction, concept: str):
+    if not await _guard(interaction):
+        return
+    r = explain_concept_by_id(concept.strip().lower())
+    log_event(interaction.user.id, "example", r.log_concept_id or None, 1.0)
+    await _reply(interaction, r.to_text(tier="example"))
+
+
+@example.autocomplete("concept")
+async def _example_ac(interaction: discord.Interaction, current: str):
+    cur = (current or "").lower()
+    hits = [c for c in library().concepts.values()
+            if cur in c.id or cur in c.name.lower()][:25]
+    return [app_commands.Choice(name=c.name, value=c.id) for c in hits]
+
+
 @tree.command(name="concepts", description="Everything I can explain")
 async def concepts(interaction: discord.Interaction):
     lib = library()
@@ -125,8 +161,9 @@ async def concepts(interaction: discord.Interaction):
         lines.append(f"__{topic.replace('-', ' ').title()}__")
         lines += [f"  - {n}" for n in sorted(by_topic[topic])]
         lines.append("")
-    lines.append("_I won't give you answers to your homework — but I'll make "
-                 "sure you know how to get there yourself._")
+    lines.append("_I don't give answers. I ask the questions that get you there._")
+    lines.append("_`/step` and `/stuck` give you a ladder of questions. "
+                 "`/hint <concept>` gives the rule. `/example <concept>` shows one worked._")
     await _reply(interaction, "\n".join(lines), ephemeral=True)
 
 

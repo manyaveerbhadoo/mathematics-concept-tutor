@@ -34,6 +34,8 @@ class Concept:
     why: str
     example: dict
     mistake: str
+    when_stuck: str = ""        # what to do when the standard method stalls
+    questions: list = field(default_factory=list)   # the Socratic ladder
     _score: float = field(default=0.0, compare=False)
 
 

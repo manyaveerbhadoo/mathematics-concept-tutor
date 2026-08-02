@@ -354,6 +354,73 @@ def detect_transformation(before, after, top_n: int = 3):
 def detect_in_single(expr, top_n: int = 3):
     """When a student sends ONE expression and says 'I'm stuck here'.
 
-    We look at what ideas are present rather than what changed.
+    Nothing has changed yet, so the transformation detectors mostly stay
+    silent. Instead we read what the expression IS and work out which idea
+    they're about to need.
+
+    The nicest case: a quadratic whose discriminant is not a perfect square
+    was never going to factor. Rather than sending the student off to hunt
+    for integer pairs that don't exist, we point them at the quadratic
+    formula. That's the difference between a hint and an actual mentor.
     """
-    return detect_transformation(expr, expr, top_n=top_n)
+    x = _free_symbol(expr)
+    found = []
+
+    def add(cid, conf, note=""):
+        if cid not in {d.concept_id for d in found}:
+            found.append(Detection(cid, conf, note))
+
+    # --- quadratics: does it factor over the integers at all? ---
+    deg = _degree(expr, x)
+    if deg == 2 and isinstance(expr, Add):
+        try:
+            a, b, c = sympy.Poly(expr, x).all_coeffs()
+            disc = b**2 - 4*a*c
+            nice = disc.is_number and disc >= 0 and sympy.sqrt(disc).is_rational
+            if not nice:
+                add("quadratic-formula", 0.95,
+                    "discriminant is not a perfect square, so it won't factor")
+                add("factoring-quadratic-simple", 0.5, "quadratic")
+            else:
+                if _d_difference_of_squares(expr, expr, x):
+                    add("difference-of-squares", 0.9, "square minus a square")
+                add("factoring-quadratic-simple" if a == 1 else "factoring-by-grouping",
+                    0.9, "factorable quadratic")
+                add("quadratic-formula", 0.4, "always available as a fallback")
+        except Exception:
+            pass
+
+    if isinstance(expr, Add) and _count_terms(expr) == 4:
+        add("factoring-by-grouping", 0.85, "four terms")
+
+    if _logs_in(expr):
+        arg = _logs_in(expr)[0].args[0]
+        if isinstance(arg, Pow):
+            add("log-power-rule", 0.9, "exponent inside a log")
+        elif _is_fraction(arg):
+            add("log-quotient-rule", 0.9, "division inside a log")
+        elif isinstance(arg, Mul):
+            add("log-product-rule", 0.9, "multiplication inside a log")
+        add("log-definition", 0.6, "a logarithm is involved")
+
+    if _has_symbolic_exponent(expr):
+        add("solving-exponential-equations", 0.9, "unknown in an exponent")
+
+    if expr.atoms(Abs):
+        add("absolute-value-equations", 0.9, "absolute value present")
+
+    if _is_fraction(expr):
+        add("domain-of-rational", 0.75, "there's a denominator to watch")
+        add("simplify-rational", 0.7, "a fraction that may reduce")
+
+    if expr.atoms(sin) or expr.atoms(cos):
+        add("pythagorean-identity", 0.7, "trig functions present")
+
+    if isinstance(expr, Add) and deg is not None and deg >= 1 and not found:
+        add("gcf-factoring", 0.6, "a sum -- check for a common factor first")
+
+    if isinstance(expr, Mul) and any(isinstance(t, Add) for t in expr.args):
+        add("distributive-property", 0.7, "a product containing a sum")
+
+    found.sort(key=lambda d: -d.confidence)
+    return found[:top_n] or detect_transformation(expr, expr, top_n=top_n)
