@@ -6,23 +6,31 @@
 
 ## The short version
 
-I built a Discord bot for Math 1B that explains the *concept* behind a step a student is stuck on. It is architecturally incapable of solving a problem or producing an answer, and I would not put it in front of students without your approval.
+I built a Discord bot for Math 1B that answers a student's question **with questions** — a sequence that walks them to the answer without ever giving it. It is architecturally incapable of producing a solution, and I would not put it in front of students without your approval.
+
+The aim is to build problem-solvers rather than memorisers. A student who is shown a worked solution copies its shape onto their own numbers and learns nothing transferable. A student who is asked the right five questions in the right order has actually done the reasoning, and can do the next one alone.
 
 ---
 
 ## What a student sees
 
-A student sends a step from their own work — say they went from `x² − 5x + 6` to `(x − 2)(x − 3)` and don't understand why that works. The bot identifies the underlying idea and responds with:
+A student sends a step from their own work — say they're stuck factoring `x² − 5x + 6`. The bot identifies the concept and replies with **questions only**:
 
-1. **The name of the concept** — "Factoring x² + bx + c"
-2. **A question back to them** — *"What two numbers multiply to your last term and add to your middle one?"* The bot asks before it tells.
-3. **A plain-language explanation**, written for a beginner
-4. **The rule, and why the rule is true**
-5. **A fully worked example using different numbers**
-6. **The mistake students usually make here**
-7. **The prerequisites underneath it**, if there are any
+> **This is: Factoring x² + bx + c**
+>
+> **1)** In `x² − 5x + 6`, what is your b and your c?
+> **2)** Write down every pair of whole numbers that multiplies to give 6. All of them.
+> **3)** Which of those pairs adds up to −5?
+> **4)** If none of them do — what do you think that tells you about this quadratic?
+> **5)** If you found a pair: multiply your factors back out. Does it match?
 
-That last point is the part I care most about. If a student is stuck on factoring by grouping, the bot doesn't explain grouping louder — it shows them that grouping sits on top of GCF factoring, which sits on the distributive property, and offers to start at the bottom. Students who are lost are usually lost one or two levels below where they think they are.
+No rule, no explanation, no answer. The questions use the student's own coefficients, so they can't be skimmed past.
+
+**The rule sits behind `/hint`, and a worked example behind `/example`** — both opt-in, both prefaced with "only once you've had a real go." A student has to consciously choose to be told, and that friction is the point.
+
+**Where it won't let them waste effort:** send a quadratic that doesn't factor, and the bot doesn't announce that. It asks them to compute b² − 4ac, check whether it's a perfect square, and say what that implies. The student draws the inference — which is the part worth owning.
+
+**And it diagnoses downward.** If someone is stuck on factoring by grouping, the bot shows that grouping sits on GCF factoring, which sits on the distributive property, and offers to start at the bottom. Students who are lost are usually lost one or two levels below where they think they are.
 
 ---
 
@@ -36,7 +44,9 @@ Three consequences:
 
 - It **cannot** produce a solution to a homework problem, in any phrasing, under any prompt.
 - It **cannot** be used to check guessed answers — it never says whether a step is right or wrong. Only what idea it uses.
-- Every worked example uses **different numbers** from any problem set, by rule.
+- Every worked example uses **different numbers** from any problem set, by rule — and is only reachable by explicitly asking for it.
+
+A test in the suite enforces the teaching rule directly: every concept must have at least three questions, at least half must genuinely ask something, and any entry that hands over a conclusion fails the build. The pedagogy is version-controlled, not just intended.
 
 I'd contrast this with the obvious alternative: a bot that computes the answer and is *instructed* not to reveal it. That's a filter, and filters get broken — students would have a screenshot of it failing within a week. This has nothing to break.
 

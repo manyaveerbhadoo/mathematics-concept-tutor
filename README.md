@@ -1,96 +1,122 @@
 # Mathematics Concept Tutor
 
-A Discord bot for UCI **MATH 1B (Pre-Calculus II)** that explains the *idea* behind a step a student is stuck on — and never gives away an answer.
+**A Discord tutor that refuses to give answers — and asks the questions that make a student find their own.**
 
-Built by Manyaveer Bhadoo, Learning Assistant, Fall 2026.
+Built for UCI **MATH 1B (Pre-Calculus II)** by Manyaveer Bhadoo, Learning Assistant, Fall 2026.
 
 ---
 
-## What it does
+## The idea
 
-A student sends a step from their own work:
+Most homework help produces memorisers. A student sees a worked solution, copies the shape onto their own numbers, and gets the answer without ever doing the reasoning. It feels like learning. It isn't — the next unfamiliar problem puts them right back where they started.
+
+This bot is built to produce the opposite. **It never states a conclusion the student could reach on their own.** Every reply is a ladder of questions, built from the student's own coefficients, that walks them toward the answer without ever handing it over.
+
+The point isn't to get the problem done. It's that the student ends up able to do the next one alone.
+
+---
+
+## What a student actually sees
+
+They send a step they're stuck on:
 
 ```
-/step  before: x^2 - 5x + 6   after: (x - 2)(x - 3)
+/step   before: x^2 - 5x + 6    after: (x - 2)(x - 3)
 ```
 
-The bot replies:
+The bot works out which concept is in play and replies with **questions only**:
 
-> **The idea here is: Factoring x² + bx + c**
+> **This is: Factoring x² + bx + c**
 >
-> **Before I explain — have a go at this:**
-> > What two numbers multiply to your last term and add to your middle one?
+> Work through these in order. Don't skip ahead — each one sets up the next.
 >
-> *…plain explanation, the rule, why it works, a fully worked example **using different numbers**, and the mistake students usually make.*
->
-> *This one builds on: The Distributive Property → Factoring Out the GCF.*
+> **1)** In `x^2 - 5x + 6`, what is your b (the middle number) and your c (the last one)?
+> **2)** Write down every pair of whole numbers that multiplies to give 6. All of them.
+> **3)** Which of those pairs adds up to -5?
+> **4)** If none of them do — what do you think that tells you about this quadratic?
+> **5)** If you found a pair: multiply your factors back out. Does it match the original?
 
-### Commands
+No rule. No worked example. No answer. Just the sequence of thinking, with their numbers in it.
+
+### It won't let them waste time either
+
+Send a quadratic that doesn't factor and the bot doesn't announce that — it makes them establish it:
+
+> **1)** For `2x^2 + 3x - 1`, write down a, b and c.
+> **2)** Work out b² − 4ac on its own. What number do you get?
+> **3)** Is that number a perfect square? Check it.
+> **4)** What do you think your answer to that tells you about whether this factors into whole numbers?
+> **5)** Now substitute a, b and c into the formula.
+
+The student computes 17, sees it isn't a perfect square, and draws the conclusion themselves. That inference is the thing worth owning — so the bot doesn't steal it.
+
+---
+
+## Three tiers, each one opt-in
+
+| Tier | Command | What it gives |
+|---|---|---|
+| **1. Questions** | `/step`, `/stuck`, `/ask` | The ladder. This is the default and usually the end of it. |
+| **2. The rule** | `/hint <concept>` | The formula, why it's valid, the usual trap. Prefaced *"only worth reading once you've had a real go."* |
+| **3. Worked example** | `/example <concept>` | A full solution with **different numbers**, ending with *"now go do yours yourself."* |
+
+A student has to consciously choose to be told. That friction is deliberate — the moment before you're given the answer is the moment you actually learn something.
+
+### All commands
 
 | Command | For |
 |---|---|
 | `/step before after` | "I did this — what idea is that?" |
-| `/ask question` | Plain English: *"why can I split a log of a product?"* |
 | `/stuck expression` | "I don't know what to do here." |
+| `/ask question` | Plain English: *"why can I split a log of a product?"* |
+| `/hint concept` | The rule behind it |
+| `/example concept` | One worked through |
 | `/concepts` | Everything the bot knows |
 | `/report` | Instructor only — anonymous weekly digest |
 
 ---
 
-## The design rule that makes it safe
+## Why it can't be used to cheat
 
-**The bot has no capacity to produce an answer.** This is architectural, not a filter.
+**The bot has no capacity to produce an answer.** That's architectural, not a filter.
 
-It identifies which *concept* a step uses by looking at the structural shape of the expression, then reads a pre-written explanation out of a file. It never solves, never simplifies toward a result, and never says whether the student's step was right or wrong.
+It identifies which *concept* a step uses by matching the structural shape of the expression, then reads pre-written questions out of a file. It never solves, never simplifies toward a result, and never says whether a step was right or wrong.
 
-That matters because filters get jailbroken and architecture doesn't. There is no "ignore previous instructions" here — there is no answer stored anywhere to leak, and no model generating one.
+Filters get jailbroken. Architecture doesn't. There is no "ignore previous instructions" here — there's no answer stored anywhere to leak, and no language model generating one.
 
-Consequences:
-
-- Can't be used to do homework, so there's nothing to gain by trying.
-- Can't be used as an oracle to guess answers against, because it never confirms anything.
-- Every word it can say is in `concepts/library.json`, which an instructor can read end to end in ten minutes.
+- Can't do homework, so there's nothing to gain by trying.
+- Can't be used as an oracle to test guesses against, because it never confirms anything.
+- Every word it can say lives in `concepts/library.json`, which an instructor can read end to end in ten minutes.
 
 ---
 
 ## Setup
 
-**1. Install**
-
 ```bash
-git clone https://github.com/manyaveerbhadoo/mathematics-concept-tutor.git
+git clone https://github.com/manyaveerbhadoo/mathematics-concept-tutor
 cd mathematics-concept-tutor
 pip install -r requirements.txt
 ```
 
-**2. Try it with no Discord account at all**
+**Try it with no Discord account at all:**
 
 ```bash
-python3 try_it.py --demo     # canned conversations
-python3 try_it.py            # interactive
+python try_it.py --demo     # canned conversations
+python try_it.py            # interactive
 ```
 
-**3. Create the Discord bot**
+**Then create the bot:** [discord.com/developers/applications](https://discord.com/developers/applications) → New Application → **Bot** → Reset Token. Under **OAuth2 → URL Generator**, tick scopes `bot` and `applications.commands`, permission `Send Messages`, and open the generated URL to invite it.
 
-- Go to <https://discord.com/developers/applications> → **New Application**
-- **Bot** → **Reset Token** → copy it
-- **OAuth2 → URL Generator**: scopes `bot` + `applications.commands`; permissions `Send Messages`, `Use Slash Commands`
-- Open the generated URL to invite the bot to a server you own
-
-**4. Configure**
+No privileged gateway intents are needed — the bot uses slash commands only and never reads message content.
 
 ```bash
 cp .env.example .env
-python3 -c "import secrets; print(secrets.token_hex(32))"   # for MATHBOT_SALT
+python -c "import secrets; print(secrets.token_hex(32))"   # for MATHBOT_SALT
+python setup_check.py --live     # validates everything, tests your token
+python bot.py
 ```
 
-Fill in `.env`. **Never commit it** — it's already in `.gitignore`. If a token leaks, reset it in the developer portal immediately.
-
-**5. Run**
-
-```bash
-python3 bot.py
-```
+`setup_check.py` checks your Python version, packages, every `.env` field, that `.env` isn't tracked by git, that the concept library loads, that detection works end to end — then logs in to Discord to prove the token is real. Every failure comes with the exact command to fix it.
 
 ---
 
@@ -99,6 +125,7 @@ python3 bot.py
 ```
 bot.py                 Discord only. No math, no teaching logic.
 try_it.py              Terminal version — test everything without Discord.
+setup_check.py         Preflight validation.
 
 mathcore/
   parser.py            Student text -> SymPy. Two modes (see below).
@@ -107,32 +134,26 @@ mathcore/
   tutor.py             Decides what to actually say.
   storage.py           Anonymous logging + rate limiting.
 
-concepts/library.json  Everything the bot can say. Plain data.
+concepts/library.json  Every word the bot can say. Plain data.
 
 tests/
-  test_parser.py       27 tests: messy input, broken input, injection attempts
-  test_concepts.py     29 tests: matching, prerequisite ordering, content quality
+  test_parser.py       27 tests: messy input, malformed input, injection
+  test_concepts.py     46 tests: matching, prerequisites, content, teaching rule
   benchmark_detect.py  45 labeled student steps — accuracy measurement
-```
-
-Run everything:
-
-```bash
-python3 tests/test_parser.py && python3 tests/test_concepts.py && python3 tests/benchmark_detect.py
 ```
 
 ### The two parser modes
 
-SymPy simplifies as it parses: `3(x+2)` becomes `3x+6` instantly, and `log_2(8)` becomes `3`. That's fine for computing, but it destroys the *shape* the student typed — and the shape is exactly what tells us which idea they used.
+SymPy simplifies as it parses: `3(x+2)` becomes `3x+6` instantly and `log_2(8)` becomes `3`. Fine for computing, fatal here — it destroys the *shape* the student typed, and the shape is what identifies the concept.
 
 ```python
 parse_student("3(x+2)")                    # -> 3*x + 6      (math mode)
 parse_student("3(x+2)", structural=True)   # -> 3*(x + 2)    (shape mode)
 ```
 
-The detector uses shape mode. Getting this wrong held detection accuracy at 60%; fixing it took it to 100%.
+Getting this wrong held detection accuracy at 60%. Fixing it took it to 100%.
 
-### Safety in the parser
+### Parser safety
 
 SymPy's parser calls `eval()` underneath. Two layers guard it: a blocklist scan, and a locked namespace where the only reachable names are `sin`, `cos`, `log`, `sqrt`, `pi` and friends — no Python builtins. Four injection attempts are in the test suite.
 
@@ -149,22 +170,22 @@ Append an entry to `concepts/library.json`. No code:
   "topic": "polynomials",
   "prereqs": ["distributive-property"],
   "keywords": ["complete the square", "perfect square trinomial"],
-  "plain": "Beginner-level explanation...",
-  "ask": "The question to put back to the student first",
-  "rule": "The formal statement",
-  "why": "Why this is allowed",
-  "example": {
-    "problem": "Use DIFFERENT numbers than any homework",
-    "steps": ["...", "..."],
-    "note": "optional"
-  },
-  "mistake": "The trap students fall into"
+  "questions": [
+    "In {expr}, what is the coefficient of your x term?",
+    "Halve it, then square that. What do you get?",
+    "What happens to the expression's value if you add that number? How do you compensate?"
+  ],
+  "plain": "…",  "rule": "…",  "why": "…",  "mistake": "…",
+  "when_stuck": "…",
+  "example": { "problem": "use DIFFERENT numbers", "steps": ["…"] }
 }
 ```
 
-The library validates itself on startup: unknown prerequisites and circular chains raise an error immediately rather than failing in front of a student. `tests/test_concepts.py` enforces that every entry has a worked example, a listed mistake, and a real explanation.
+`{expr}`, `{b}`, `{c}`, `{terms}`, `{den}` and friends are filled with the student's own values; anything that can't be worked out falls back to a readable generic phrase.
 
-**One content rule:** examples must use different numbers than anything on a problem set. Otherwise the bot accidentally hands over an answer.
+**The one rule for writing questions:** never state a conclusion the student could reach. `test_concepts.py` enforces it — every concept needs 3+ questions, at least half must actually ask something, and any that hands over a conclusion fails the build.
+
+The library validates itself at startup too: unknown prerequisites and circular chains raise immediately rather than failing in front of a student.
 
 ---
 
@@ -173,7 +194,9 @@ The library validates itself on startup: unknown prerequisites and circular chai
 - Discord user IDs are **SHA-256 hashed with a secret salt** before touching disk. The bot can tell "same person twice" from "two people once" — nothing more.
 - Student expressions are **never stored**. Only the concept ID.
 - No names, no handles, no message content.
-- `/report` shows aggregate counts only, and only to IDs listed in `INSTRUCTOR_IDS`.
+- `/report` shows aggregate counts only, and only to IDs in `INSTRUCTOR_IDS`.
+
+The weekly digest tells an instructor where the class is stuck — *"47 questions about log properties this week"* — in time to act on it, rather than finding out at the midterm.
 
 ---
 
@@ -181,16 +204,18 @@ The library validates itself on startup: unknown prerequisites and circular chai
 
 | Test suite | Result |
 |---|---|
-| Parser (messy input, malformed input, injection) | 27/27 |
-| Concept library (matching, prerequisites, content) | 29/29 |
-| Detector benchmark, 45 labeled steps | 100% top-1 |
+| Parser — messy input, malformed input, injection | 27/27 |
+| Concept library — matching, prerequisites, content, teaching rule | 46/46 |
+| Detector benchmark — 45 labeled steps | 100% top-1 |
 
-**Caveat worth stating plainly:** 100% is measured on cases written by the author. Real student input is messier. The benchmark exists to be re-run against real steps once the bot is in front of a class — that number is the honest one.
+16 concepts, 68 questions.
+
+**Stated plainly:** 100% is measured on cases written by the author. Real student input is messier. The benchmark exists to be re-run against real steps once the bot is in front of a class — that number will be the honest one.
 
 ## Before deploying to a real class
 
-- [ ] Get written approval from the Math 1B instructor
-- [ ] Expand the library to full syllabus coverage (completing the square, unit circle, inverse functions, graph transformations)
-- [ ] Test with 5–10 students who aren't in the course
+- [ ] Written approval from the Math 1B instructor
+- [ ] Full syllabus coverage (completing the square, unit circle, inverse functions, graph transformations)
+- [ ] Test with students who aren't in the course
 - [ ] Re-run the benchmark against real student steps and record the number
-- [ ] Confirm `.env` is not in git history: `git log --all --full-history -- .env`
+- [ ] Confirm `.env` was never committed: `git log --all --full-history -- .env`
