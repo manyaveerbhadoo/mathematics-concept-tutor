@@ -1,4 +1,4 @@
-# Math 1B Concept Tutor
+# Mathematics Concept Tutor
 
 A Discord bot for UCI **MATH 1B (Pre-Calculus II)** that explains the *idea* behind a step a student is stuck on — and never gives away an answer.
 
@@ -58,8 +58,8 @@ Consequences:
 **1. Install**
 
 ```bash
-git clone <your-repo-url>
-cd math1b-bot
+git clone https://github.com/manyaveerbhadoo/mathematics-concept-tutor.git
+cd mathematics-concept-tutor
 pip install -r requirements.txt
 ```
 
