@@ -246,6 +246,21 @@ The weekly digest tells an instructor where the class is stuck — *"47 question
 
 ---
 
+---
+
+## How this was built
+
+The design and engineering decisions here are mine: the Socratic structure, the
+refusal to volunteer worked examples, the rule that the bot never states a
+conclusion a student could reach on their own, the choice to keep a language
+model out of the answering path entirely, and the privacy model. The code was
+written with AI assistance.
+
+The reasoning behind each of those decisions, including the ones that were
+wrong first time, is in [DESIGN.md](DESIGN.md).
+
+---
+
 ## Current state
 
 | Test suite | Result |

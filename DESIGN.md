@@ -1,6 +1,9 @@
 # Design notes
 
-Why this is built the way it is. Written for anyone reading the code — including me in six months.
+Why this is built the way it is. Written for anyone reading the code, including me in six months.
+
+The decisions recorded here are mine; the code was written with AI assistance.
+This document exists because the decisions are the part worth defending.
 
 ---
 
