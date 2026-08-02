@@ -69,6 +69,14 @@
         "Is there a letter that appears in all of them too? What is the lowest power it appears at?",
         "Pull all of that out to the front. What is left inside the bracket?",
         "Multiply your answer back out. Do you land exactly where you started?"
+      ],
+      "checks": [
+        {
+          "kind": "gcf"
+        },
+        null,
+        null,
+        null
       ]
     },
     {
@@ -105,8 +113,19 @@
         "In {expr}, what is your b (the middle number) and your c (the last one)?",
         "Write down every pair of whole numbers that multiplies to give {c}. All of them.",
         "Which of those pairs adds up to {b}?",
-        "If none of them do -- what do you think that tells you about this quadratic?",
-        "If you found a pair: multiply your factors back out. Does it match the original?"
+        "Now write those two numbers into a pair of brackets. What do you get?",
+        "Multiply your brackets back out. Does it come back to what you started with?"
+      ],
+      "checks": [
+        null,
+        null,
+        {
+          "kind": "pair",
+          "product": "c",
+          "sum": "b"
+        },
+        null,
+        null
       ]
     },
     {
@@ -179,8 +198,19 @@
         "How many terms does {expr} have? Does that number suggest a strategy?",
         "Split them into two pairs. What does the first pair share? What does the second share?",
         "Factor each pair on its own. Did both pairs leave you the same bracket?",
-        "If the brackets do not match -- what happens if you reorder the middle terms and regroup?",
+        "If the brackets do not match — what happens if you reorder the middle terms and regroup?",
         "Once they match, what is left to factor out?"
+      ],
+      "checks": [
+        null,
+        null,
+        {
+          "kind": "pair",
+          "product": "a*c",
+          "sum": "b"
+        },
+        null,
+        null
       ]
     },
     {
@@ -280,7 +310,7 @@
       "questions": [
         "Inside your log, which part is on top and which is on the bottom?",
         "When you work out b^m divided by b^n, what happens to the exponents?",
-        "So which way round does your subtraction go -- and how would you check you have it the right way?",
+        "So which way round does your subtraction go — and how would you check you have it the right way?",
         "Try it with numbers you know: does log_2(16/2) give the same as log_2(16) - log_2(2)?"
       ]
     },
@@ -349,7 +379,7 @@
       "when_stuck": "If both sides can be written with the SAME base, you can skip logs entirely and just set the exponents equal.",
       "questions": [
         "In {expr}, where exactly is the unknown sitting?",
-        "Can you reach it using only adding, subtracting, multiplying or dividing? Try -- what stops you?",
+        "Can you reach it using only adding, subtracting, multiplying or dividing? Try — what stops you?",
         "What operation is the opposite of raising something to a power?",
         "Apply that to both sides. What happens to the exponent?"
       ]
@@ -385,6 +415,16 @@
         "Set {den} equal to that value and solve. What x comes out?",
         "So what is the domain? Say it in words before you write it in symbols.",
         "Does the top of the fraction being zero cause any problem? Why or why not?"
+      ],
+      "checks": [
+        {
+          "kind": "number",
+          "value": "0",
+          "nudge": "Think about what division actually asks. Which single value makes the question meaningless?"
+        },
+        null,
+        null,
+        null
       ]
     },
     {
@@ -487,7 +527,7 @@
         "What does absolute value actually measure? Distance from what?",
         "If the distance from zero is 3, how many different numbers could you have started with?",
         "So how many separate equations do you need to write? Write them both.",
-        "What if the right-hand side were a negative number -- how many solutions then, and why?"
+        "What if the right-hand side were a negative number — how many solutions then, and why?"
       ]
     },
     {
@@ -557,8 +597,22 @@
         "For {expr}, write down a, b and c.",
         "Work out b^2 - 4ac on its own. What number do you get?",
         "Is that number a perfect square? Check it.",
-        "What do you think your answer to that tells you about whether this factors into whole numbers?",
+        "So what does that tell you about trying to factor this one?",
         "Now substitute a, b and c into the formula. What do you get?"
+      ],
+      "checks": [
+        null,
+        {
+          "kind": "number",
+          "value": "b**2 - 4*a*c",
+          "nudge": "Not that number. Work out b squared on its own first, then 4ac on its own, and watch the sign of c when you subtract."
+        },
+        {
+          "kind": "perfect_square",
+          "of": "b**2 - 4*a*c"
+        },
+        null,
+        null
       ]
     },
     {
@@ -591,7 +645,7 @@
         "In {expr}, what is being done TO x? List the operations in order.",
         "To undo them, you go in reverse order. Which one do you undo first?",
         "Do that to BOTH sides. What do you have now?",
-        "Keep going until x is alone. Then substitute your answer back in -- does it check out?"
+        "Keep going until x is alone. Then substitute your answer back in — does it check out?"
       ]
     },
     {
@@ -626,7 +680,7 @@
       "questions": [
         "Solve {expr} the same way you would an equation. What steps do you need?",
         "Did any step involve multiplying or dividing by a NEGATIVE number?",
-        "If it did -- what has to happen to the inequality sign, and why?",
+        "If it did — what has to happen to the inequality sign, and why?",
         "Test your answer: pick a number in your solution range and put it back in. Does the inequality hold?"
       ],
       "when_stuck": "If you end up with something impossible like 0 < -3, there is no solution. If you get something always true like 0 < 5, every real number works."
@@ -700,9 +754,24 @@
         "Halve it, then square that result. What number do you get?",
         "If you ADD that number, the expression changes value. What must you do to keep it equal?",
         "Write the first three terms as a squared bracket. What is inside the bracket?",
-        "Expand your bracket back out to check -- do you recover the original?"
+        "Expand your bracket back out to check — do you recover the original?"
       ],
-      "when_stuck": "If the leading coefficient is not 1, factor it out of the first two terms before you start."
+      "when_stuck": "If the leading coefficient is not 1, factor it out of the first two terms before you start.",
+      "checks": [
+        {
+          "kind": "number",
+          "value": "b",
+          "nudge": "Look again at the term with a single x in it — what number is sitting in front of it, sign included?"
+        },
+        {
+          "kind": "number",
+          "value": "(b/2)**2",
+          "nudge": "Two steps there: halve it first, then square what you get. Which one slipped?"
+        },
+        null,
+        null,
+        null
+      ]
     },
     {
       "id": "radical-equations",
@@ -738,7 +807,7 @@
         "Square both sides. What does the equation become?",
         "Solve it. What values do you get?",
         "Now substitute EACH one back into the ORIGINAL equation. Do they all actually work?",
-        "If one fails -- why do you think squaring produced a value that does not satisfy the original?"
+        "If one fails — why do you think squaring produced a value that does not satisfy the original?"
       ],
       "when_stuck": "If checking rejects every candidate, the equation genuinely has no solution."
     },
@@ -774,7 +843,7 @@
         "Look at the exponents in {expr}. Is one of them exactly double another?",
         "If you let u stand for the smaller power, what does the larger power become in terms of u?",
         "Rewrite the whole equation in u. What familiar shape do you have now?",
-        "Solve for u -- then remember you are not finished. What do you still have to do?"
+        "Solve for u — then remember you are not finished. What do you still have to do?"
       ]
     },
     {
@@ -806,7 +875,7 @@
       "questions": [
         "In your function, what does the letter inside the brackets represent?",
         "Every place x appears in the rule, what are you going to put instead?",
-        "Substitute carefully -- especially inside any powers or brackets. What do you get?",
+        "Substitute carefully — especially inside any powers or brackets. What do you get?",
         "If the input were something like (a + 1) instead of a number, what would change about how carefully you substitute?"
       ]
     },
@@ -840,7 +909,7 @@
       "questions": [
         "Look at your function. Does it contain a fraction, an even root, or a logarithm?",
         "For each one you found: what inputs would break it?",
-        "Exclude those. What is left is your domain -- can you write it in interval notation?",
+        "Exclude those. What is left is your domain — can you write it in interval notation?",
         "Now the range: as x runs over the domain, what values can the output actually reach? Sketching a rough graph helps here."
       ]
     },
@@ -875,7 +944,7 @@
       "mistake": "Getting the direction of horizontal shifts backwards. f(x + 2) moves LEFT, not right.",
       "questions": [
         "Compare your function to its parent. Is the change inside the brackets or outside?",
-        "If it is inside, it affects x -- and inside changes do the OPPOSITE of what they look like. Which direction does that move the graph?",
+        "If it is inside, it affects x — and inside changes do the OPPOSITE of what they look like. Which direction does that move the graph?",
         "If it is outside, it affects y and does what it looks like. Up, down, stretched, or flipped?",
         "Pick one point on the parent graph, apply your transformation to it, and check it lands where you predicted."
       ]
@@ -912,7 +981,7 @@
       "mistake": "Reading the vertex as (h, k) but taking h with the wrong sign. In (x - 3)^2 the vertex x-coordinate is +3.",
       "questions": [
         "Does your parabola open up or down? How can you tell from the equation alone?",
-        "That tells you whether the vertex is a minimum or a maximum -- which is it?",
+        "That tells you whether the vertex is a minimum or a maximum — which is it?",
         "Convert to vertex form by completing the square. What are h and k?",
         "What does the vertex tell you about the maximum or minimum value, and where it happens?"
       ]
@@ -948,8 +1017,8 @@
       "questions": [
         "What is the leading term of the dividend, and what is the leading term of the divisor?",
         "What do you multiply the divisor's leading term by to get the dividend's? That is your first quotient term.",
-        "Multiply the whole divisor by it and subtract. Careful -- what happens to the signs when you subtract a whole expression?",
-        "Is the degree of what remains still at least as big as the divisor's? If so, repeat. If not, you are done -- what is left is the remainder.",
+        "Multiply the whole divisor by it and subtract. Careful — what happens to the signs when you subtract a whole expression?",
+        "Is the degree of what remains still at least as big as the divisor's? If so, repeat. If not, you are done — what is left is the remainder.",
         "Check: does (quotient x divisor) + remainder give you back the original?"
       ],
       "when_stuck": "Write in placeholders like 0x^2 for any missing power, or your columns will drift out of line."
@@ -981,7 +1050,7 @@
       },
       "mistake": "Getting the sign of c wrong. Dividing by (x + 3) means c = -3. And forgetting zeros for missing powers.",
       "questions": [
-        "What is c? Careful with the sign -- if you are dividing by (x + 3), what is c?",
+        "What is c? Careful with the sign — if you are dividing by (x + 3), what is c?",
         "Write out the coefficients of the dividend. Are any powers missing? What must you write for those?",
         "Bring down the first coefficient, multiply by c, add to the next. Keep going. What numbers do you get?",
         "The last number is the remainder. What do the others represent, and what degree does the quotient have?"
@@ -1054,7 +1123,7 @@
       "mistake": "Confusing x^2 (variable in the base -- a polynomial) with 2^x (variable in the exponent -- exponential). They behave completely differently.",
       "questions": [
         "In your function, is the variable in the base or in the exponent? Which makes it exponential?",
-        "What is the base? Is it bigger than 1 or between 0 and 1 -- so does this grow or decay?",
+        "What is the base? Is it bigger than 1 or between 0 and 1 — so does this grow or decay?",
         "What is the output when x = 0? What does that tell you about where the graph crosses the y-axis?",
         "As x heads to negative infinity, what happens to the value? Does it ever actually reach zero?"
       ]
@@ -1129,7 +1198,7 @@
         "Once you have a single log, rewrite it in exponential form. What does the equation become?",
         "Solve it. What values do you get?",
         "Now put each one back into the ORIGINAL equation. Does every log still have a positive number inside?",
-        "If one produces a log of a negative -- what does that tell you about that solution?"
+        "If one produces a log of a negative — what does that tell you about that solution?"
       ]
     },
     {
@@ -1161,7 +1230,7 @@
       "questions": [
         "How many degrees are in a full circle? How many radians?",
         "So what single fraction converts one to the other?",
-        "Apply it to your angle. Do you multiply by pi/180 or by 180/pi -- and how can you decide without memorising?",
+        "Apply it to your angle. Do you multiply by pi/180 or by 180/pi — and how can you decide without memorising?",
         "Sanity-check: is your answer in the right ballpark? Roughly how many degrees is one radian?"
       ],
       "when_stuck": "If you are unsure which way to multiply, write the units as fractions and cancel them like algebra."
@@ -1199,7 +1268,7 @@
       "questions": [
         "On the unit circle, which coordinate is cosine and which is sine?",
         "Which quadrant is your angle in? In that quadrant, is x positive or negative? What about y?",
-        "So what are the signs of sine and cosine for your angle -- before you work out any numbers?",
+        "So what are the signs of sine and cosine for your angle — before you work out any numbers?",
         "Now the size: is your angle related to 30, 45 or 60 degrees? What is the exact value there?",
         "Combine the sign and the size. What is your answer?"
       ]
@@ -1234,7 +1303,7 @@
       "mistake": "Measuring to the y-axis instead of the x-axis, or forgetting the sign entirely and giving a positive answer in a quadrant where it should be negative.",
       "questions": [
         "Which quadrant does your angle land in? Sketch it if that helps.",
-        "How far is the terminal side from the nearest part of the x-axis -- not the y-axis?",
+        "How far is the terminal side from the nearest part of the x-axis — not the y-axis?",
         "That distance is your reference angle. What is it?",
         "Now the sign: in that quadrant, is the function you want positive or negative?",
         "Put the two together. What is the exact value?"
@@ -1267,7 +1336,7 @@
       "mistake": "Labelling opposite and adjacent from the wrong angle. They swap depending on which angle you stand at. The hypotenuse never moves.",
       "questions": [
         "Label your triangle from the angle you are working with: which side is opposite, which is adjacent, which is the hypotenuse?",
-        "Which two of those three does your problem actually involve -- the one you know and the one you want?",
+        "Which two of those three does your problem actually involve — the one you know and the one you want?",
         "Which ratio connects exactly those two sides?",
         "Set up the equation and solve. Then check: is your answer sensible for a triangle? Is the hypotenuse still the longest side?"
       ],
@@ -1305,7 +1374,7 @@
       "mistake": "Reading b as the period. b is how many cycles fit in 2*pi -- the period is 2*pi divided by b.",
       "questions": [
         "In y = a*sin(b(x - c)) + d, which number controls the height of the wave?",
-        "Which one controls how fast it repeats -- and how do you turn it into the actual period?",
+        "Which one controls how fast it repeats — and how do you turn it into the actual period?",
         "What is the midline of your graph, and what shifts it?",
         "Sketch one full cycle using those numbers. Does the maximum come out where you expect?"
       ]
@@ -1453,7 +1522,7 @@
         "Get the trig function alone first. What does your equation reduce to?",
         "In ONE full turn, how many angles have that value? Which quadrants are they in?",
         "Find them using the reference angle and the quadrant signs. What are they?",
-        "Does the question ask for a specific interval, or for all solutions? If all -- what do you add to capture the repeats?",
+        "Does the question ask for a specific interval, or for all solutions? If all — what do you add to capture the repeats?",
         "Substitute one answer back in. Does it satisfy the original equation?"
       ],
       "when_stuck": "If the equation is quadratic in the trig function, factor it first, then solve each piece separately."

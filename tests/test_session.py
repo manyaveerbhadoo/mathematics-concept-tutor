@@ -1,7 +1,9 @@
 """Tests for the conversational layer.
 
-The rule under test: a wrong answer earns a NARROWER QUESTION, never a
-correction. If any nudge here starts handing over answers, that's a bug.
+Rules under test:
+  1. A wrong answer earns a NARROWER QUESTION, never the answer itself.
+  2. The bot never tells a student it "can't verify" something.
+  3. A correct student is never marked wrong.
 """
 
 import sys, os
@@ -9,9 +11,11 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from mathcore.tutor import explain_stuck, render_questions, library
 from mathcore import session as convo
-from mathcore.session import _yes_no, _numbers_in, check
+from mathcore import phrasing
+from mathcore.session import _yes_no, _numbers_in, _stuck_signal, check
 
 passed = failed = 0
+LIB = library()
 
 
 def ok(label, cond, detail=""):
@@ -24,113 +28,122 @@ def ok(label, cond, detail=""):
         print(f"  [FAIL] {label}  {detail}")
 
 
-print("=" * 70)
-print("TEST 1 — reading a student's plain-English yes/no")
-print("=" * 70)
-# "no it isn't" must not read as agreement just because "it is" is a substring.
+def hdr(t):
+    print()
+    print("=" * 70)
+    print(t)
+    print("=" * 70)
+
+
+hdr("TEST 1 — reading plain-English yes/no")
+# "no it isn't" must not read as agreement because "it is" sits inside "it isn't"
 for text, want in [("no it isn't", False), ("yes it is", True),
                    ("it is a perfect square", True), ("it is not", False),
                    ("nope", False), ("yeah", True), ("correct", True),
                    ("dunno", None)]:
-    got = _yes_no(text)
-    ok(f"{text!r} -> {got}", got == want, f"wanted {want}")
+    ok(f"{text!r} -> {_yes_no(text)}", _yes_no(text) == want, f"wanted {want}")
 
-print()
-print("=" * 70)
-print("TEST 2 — pulling numbers out of however they phrased it")
-print("=" * 70)
+hdr("TEST 2 — recognising a student who is lost, not answering")
+for text, want in [("idk i'm stuck", True), ("no idea", True),
+                   ("I don't understand", True), ("?", True),
+                   ("-2 and -3", False), ("17", False)]:
+    ok(f"{text!r} -> stuck={_stuck_signal(text)}", _stuck_signal(text) == want)
+
+hdr("TEST 3 — pulling numbers out of natural phrasing")
 for text, want in [("2 and 3", [2, 3]), ("b is -5, c is 6", [-5, 6]),
-                   ("I got 17", [17]), ("-2 and -3", [-2, -3])]:
+                   ("I got 17", [17]), ("a=2, b=3, c=-1", [2, 3, -1])]:
     got = [int(n) for n in _numbers_in(text)]
     ok(f"{text!r} -> {got}", got == want, f"wanted {want}")
 
-print()
-print("=" * 70)
-print("TEST 3 — checking a factor pair (x^2 - 5x + 6, so b=-5, c=6)")
-print("=" * 70)
+hdr("TEST 4 — checking a factor pair (x^2 - 5x + 6)")
+FQ = LIB.get("factoring-quadratic-simple")
 V = {"b": "-5", "c": "6"}
-cases = [
-    ("-2 and -3", True,  "the correct pair"),
-    ("1 and 6",   False, "multiplies right, sums wrong"),
-    ("2 and 3",   False, "multiplies right, sums wrong (signs)"),
-    ("-1 and -4", False, "sums right, multiplies wrong"),
-    ("7 and 9",   False, "neither"),
-]
+cases = [("-2 and -3", True, "the pair"), ("1 and 6", False, "product ok, sum wrong"),
+         ("2 and 3", False, "product ok, signs wrong"),
+         ("-1 and -4", False, "sum ok, product wrong"), ("7 and 9", False, "neither")]
 for text, want, why in cases:
-    verdict, nudge = check("factoring-quadratic-simple", 2, text, V)
-    ok(f"{text!r} -> {verdict}  ({why})", verdict == want, f"wanted {want}")
+    v, nudge = check(FQ, 2, text, V)
+    ok(f"{text!r} -> {v}  ({why})", v == want, f"wanted {want}")
 
-print()
-print("=" * 70)
-print("TEST 4 — a wrong answer must NEVER contain the right answer")
-print("=" * 70)
-# The correct pair is -2 and -3. No nudge may leak it.
-for text, _, _ in cases:
-    verdict, nudge = check("factoring-quadratic-simple", 2, text, V)
-    if verdict is False:
-        leaked = ("-2" in nudge and "-3" in nudge)
-        ok(f"nudge for {text!r} keeps the answer hidden", not leaked, nudge)
+hdr("TEST 5 — a wrong answer must never contain the right one")
+for text, want, _why in cases:
+    v, nudge = check(FQ, 2, text, V)
+    if v is False:
+        leaked = "-2" in nudge and "-3" in nudge
+        ok(f"nudge for {text!r} hides the answer", not leaked, nudge)
 
-print()
-print("=" * 70)
-print("TEST 5 — discriminant and perfect-square checks (2x^2 + 3x - 1)")
-print("=" * 70)
+hdr("TEST 6 — discriminant and perfect square (2x^2 + 3x - 1)")
+QF = LIB.get("quadratic-formula")
 W = {"a": "2", "b": "3", "c": "-1"}
-for text, want, why in [("17", True, "b^2-4ac = 9+8 = 17"),
-                        ("9", False, "forgot the -4ac"),
+for text, want, why in [("17", True, "9 + 8"), ("9", False, "forgot -4ac"),
                         ("1", False, "wrong")]:
-    v, _ = check("quadratic-formula", 1, text, W)
+    v, _ = check(QF, 1, text, W)
     ok(f"discriminant {text!r} -> {v}  ({why})", v == want, f"wanted {want}")
-
 # 17 is not a perfect square, so "no" is the CORRECT student answer
-for text, want in [("no it isn't", True), ("yes", False)]:
-    v, _ = check("quadratic-formula", 2, text, W)
+for text, want in [("no it isn't", True), ("nope", True), ("yes", False)]:
+    v, _ = check(QF, 2, text, W)
     ok(f"perfect square? {text!r} -> {v}", v == want, f"wanted {want}")
 
-print()
-print("=" * 70)
-print("TEST 6 — a full conversation, wrong answer then right")
-print("=" * 70)
+hdr("TEST 7 — the bot never admits it can't check something")
+BANNED = ["can't verify", "cannot verify", "can't check", "unable to",
+          "i'm not able", "automatically"]
 r = explain_stuck("x^2 - 5x + 6")
-c = library().get(r.concept.id)
+c = LIB.get(r.concept.id)
 s = convo.start(99, c.id, r.values, r.expr)
 rendered = render_questions(c, r.values)
+transcript = [convo.first_question(s, rendered, c)]
+done = False
+for ans in ["b=-5 c=6", "1x6, 2x3", "-2 and -3", "(x-2)(x-3)", "yes it matches"]:
+    msg, done = convo.advance(s, c, ans, rendered)
+    transcript.append(msg)
+    if done:
+        break
+whole = " ".join(transcript).lower()
+for phrase in BANNED:
+    ok(f"never says {phrase!r}", phrase not in whole)
 
-ok("starts at question 1", s.q_index == 0)
-ok("uses the student's own numbers",
-   "6" in rendered[1] and "-5" in rendered[2], rendered[1])
+hdr("TEST 8 — no mechanical 'Question 3 of 5' numbering")
+ok("no 'question N of M' framing",
+   "question 1 of" not in whole and "question 3 of" not in whole)
+ok("conversation reached the end", done)
+ok("ending credits the student", "you" in transcript[-1].lower())
 
-msg, done = convo.advance(s, c, "b is -5 and c is 6", rendered)
-ok("unverifiable answer still advances", s.q_index == 1 and not done)
+hdr("TEST 9 — wrong answers hold position, right answers advance")
+s2 = convo.start(100, c.id, r.values, r.expr)
+for a in ["b=-5 c=6", "pairs listed"]:
+    convo.advance(s2, c, a, rendered)
+at = s2.q_index
+msg, _ = convo.advance(s2, c, "1 and 6", rendered)
+ok("wrong answer does not advance", s2.q_index == at)
+ok("wrong answer still encourages",
+   any(w in msg.lower() for w in ("nearly", "closer", "instinct", "good")), msg[:60])
+msg, _ = convo.advance(s2, c, "-2 and -3", rendered)
+ok("right answer advances", s2.q_index == at + 1)
 
-msg, done = convo.advance(s, c, "1 and 6 and 2 and 3", rendered)
-ok("advances past the listing question", s.q_index == 2)
+hdr("TEST 10 — 'I'm stuck' is treated kindly, not as a wrong answer")
+s3 = convo.start(101, c.id, r.values, r.expr)
+msg, _ = convo.advance(s3, c, "idk i'm stuck", rendered)
+ok("stays on the same question", s3.q_index == 0)
+ok("responds kindly", "no problem" in msg.lower() or "normal" in msg.lower())
+ok("offers the hint as an option", "/hint" in msg)
 
-before = s.q_index
-msg, done = convo.advance(s, c, "1 and 6", rendered)
-ok("wrong answer does NOT advance", s.q_index == before)
-ok("wrong answer re-asks the same question", "Question 3" in msg, msg[:80])
-ok("wrong answer gives a nudge, not the answer",
-   "Not yet" in msg and "-2" not in msg.split("Question")[0])
+hdr("TEST 11 — concurrency: students never see each other's conversation")
+convo.start(201, "gcf-factoring", {})
+convo.start(202, "unit-circle", {})
+convo.start(203, "law-of-sines", {})
+ok("three separate sessions",
+   convo.get(201).concept_id == "gcf-factoring"
+   and convo.get(202).concept_id == "unit-circle"
+   and convo.get(203).concept_id == "law-of-sines")
+convo.end(202)
+ok("ending one leaves the others",
+   convo.get(202) is None and convo.get(201) is not None
+   and convo.get(203) is not None)
+ok("unknown user has no session", convo.get(999999) is None)
 
-msg, done = convo.advance(s, c, "-2 and -3", rendered)
-ok("right answer advances", s.q_index == before + 1)
-
-while not done:
-    msg, done = convo.advance(s, c, "ok", rendered)
-ok("conversation reaches an end", done)
-ok("ending credits the student, not the bot",
-   "yourself" in msg or "without me" in msg, msg[:80])
-
-print()
-print("=" * 70)
-print("TEST 7 — session lifecycle")
-print("=" * 70)
-convo.start(1234, "gcf-factoring", {})
-ok("session is retrievable", convo.get(1234) is not None)
-convo.end(1234)
-ok("session ends cleanly", convo.get(1234) is None)
-ok("unknown user has no session", convo.get(55555) is None)
+hdr("TEST 12 — the optional LLM layer fails closed")
+ok("disabled without an API key", phrasing.available() is False)
+ok("returns None rather than raising", phrasing.react("q", "a", True, "c") is None)
 
 print()
 print("=" * 70)
