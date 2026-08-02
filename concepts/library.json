@@ -560,6 +560,1012 @@
         "What do you think your answer to that tells you about whether this factors into whole numbers?",
         "Now substitute a, b and c into the formula. What do you get?"
       ]
+    },
+    {
+      "id": "linear-equations",
+      "name": "Solving Linear Equations",
+      "topic": "algebra-foundations",
+      "prereqs": [],
+      "keywords": [
+        "solve for x",
+        "linear equation",
+        "isolate x",
+        "one step equation"
+      ],
+      "plain": "Whatever you do to one side of an equation, you must do to the other. That is the only rule. You are peeling operations off x one at a time, in reverse order.",
+      "ask": "In {expr}, what is being done TO x? List the operations in order.",
+      "rule": "If a = b, then a + c = b + c and ac = bc (for c != 0).",
+      "why": "An equation is a balance. Anything you do to one pan you must do to the other, or the balance breaks and the statement stops being true.",
+      "example": {
+        "problem": "Solve 3x + 7 = 22",
+        "steps": [
+          "x is multiplied by 3, then 7 is added",
+          "Undo the addition first: subtract 7 from both sides -> 3x = 15",
+          "Undo the multiplication: divide both sides by 3 -> x = 5",
+          "Check: 3(5) + 7 = 22. Correct."
+        ],
+        "note": "Reverse order matters: undo addition before multiplication."
+      },
+      "mistake": "Doing something to only one side, or undoing operations in the wrong order.",
+      "questions": [
+        "In {expr}, what is being done TO x? List the operations in order.",
+        "To undo them, you go in reverse order. Which one do you undo first?",
+        "Do that to BOTH sides. What do you have now?",
+        "Keep going until x is alone. Then substitute your answer back in -- does it check out?"
+      ]
+    },
+    {
+      "id": "linear-inequalities",
+      "name": "Linear Inequalities",
+      "topic": "algebra-foundations",
+      "prereqs": [
+        "linear-equations"
+      ],
+      "keywords": [
+        "inequality",
+        "less than",
+        "greater than",
+        "flip the sign",
+        "interval notation"
+      ],
+      "plain": "Inequalities work exactly like equations with ONE exception: multiply or divide by a negative and the direction of the sign flips.",
+      "ask": "Solve {expr} the same way you would an equation. What steps do you need?",
+      "rule": "If a < b then a + c < b + c. If c > 0, ac < bc. If c < 0, ac > bc  (sign flips).",
+      "why": "Think about 2 < 4. Multiply both by -1 and you get -2 and -4. Is -2 < -4? No -- it is greater. Negating reflects the number line, so order reverses.",
+      "example": {
+        "problem": "Solve -2x > 6",
+        "steps": [
+          "Divide both sides by -2",
+          "Because -2 is negative, the > becomes <",
+          "x < -3",
+          "Check: x = -4 gives -2(-4) = 8 > 6. Correct."
+        ],
+        "note": "Always test one value from your answer range."
+      },
+      "mistake": "Forgetting to flip the sign when dividing by a negative. That single slip makes the whole answer wrong.",
+      "questions": [
+        "Solve {expr} the same way you would an equation. What steps do you need?",
+        "Did any step involve multiplying or dividing by a NEGATIVE number?",
+        "If it did -- what has to happen to the inequality sign, and why?",
+        "Test your answer: pick a number in your solution range and put it back in. Does the inequality hold?"
+      ],
+      "when_stuck": "If you end up with something impossible like 0 < -3, there is no solution. If you get something always true like 0 < 5, every real number works."
+    },
+    {
+      "id": "absolute-value-inequalities",
+      "name": "Absolute Value Inequalities",
+      "topic": "absolute-value",
+      "prereqs": [
+        "absolute-value-equations",
+        "linear-inequalities"
+      ],
+      "keywords": [
+        "absolute value inequality",
+        "less than absolute value",
+        "and or",
+        "between"
+      ],
+      "plain": "Absolute value measures distance from zero. 'Less than' means trapped near zero -- one interval. 'Greater than' means far from zero in either direction -- two intervals.",
+      "ask": "Is your inequality a 'less than' or a 'greater than'? Say what that means about distance from zero.",
+      "rule": "|A| < k  means  -k < A < k.     |A| > k  means  A < -k  or  A > k.",
+      "why": "Picture the number line. |A| < 3 asks: which points sit within 3 units of zero? A connected stretch. |A| > 3 asks: which sit further than 3 away? Two rays heading opposite directions.",
+      "example": {
+        "problem": "Solve |x - 1| < 4",
+        "steps": [
+          "Less than, so the inside is squeezed: -4 < x - 1 < 4",
+          "Add 1 to all three parts: -3 < x < 5",
+          "One connected interval."
+        ],
+        "note": "Sketching it on a number line catches almost every error here."
+      },
+      "mistake": "Writing 'or' when it should be 'and'. Less-than gives ONE interval; greater-than gives TWO.",
+      "questions": [
+        "Is your inequality a 'less than' or a 'greater than'? Say what that means about distance from zero.",
+        "If the distance is LESS than k, the inside is squeezed between what two numbers?",
+        "If the distance is GREATER than k, where can the inside be? How many separate pieces?",
+        "Write your compound inequality, solve each piece, then sketch it on a number line to check it makes sense."
+      ],
+      "when_stuck": "|A| < negative has no solution. |A| > negative is true for every x. Check the sign of k first."
+    },
+    {
+      "id": "completing-the-square",
+      "name": "Completing the Square",
+      "topic": "polynomials",
+      "prereqs": [
+        "distributive-property",
+        "factoring-quadratic-simple"
+      ],
+      "keywords": [
+        "complete the square",
+        "perfect square trinomial",
+        "vertex form",
+        "half the b squared"
+      ],
+      "plain": "You force a quadratic into a perfect square by adding exactly the right number -- and then subtract it again so nothing actually changes. It is how the quadratic formula was derived, and how you find a parabola's vertex.",
+      "ask": "In {expr}, what is the coefficient of the x term?",
+      "rule": "x^2 + bx  becomes  (x + b/2)^2 - (b/2)^2",
+      "why": "(x + m)^2 expands to x^2 + 2mx + m^2. So to match a middle term of bx you need 2m = b, meaning m = b/2, and the constant that completes it is m^2.",
+      "example": {
+        "problem": "Complete the square for x^2 + 6x + 1",
+        "steps": [
+          "Coefficient of x is 6. Half of 6 is 3. 3 squared is 9.",
+          "x^2 + 6x = (x + 3)^2 - 9",
+          "So x^2 + 6x + 1 = (x + 3)^2 - 9 + 1 = (x + 3)^2 - 8"
+        ],
+        "note": "Expand it back: (x+3)^2 - 8 = x^2 + 6x + 9 - 8 = x^2 + 6x + 1. It checks."
+      },
+      "mistake": "Adding the number without subtracting it, or forgetting to factor out a leading coefficient before starting.",
+      "questions": [
+        "In {expr}, what is the coefficient of the x term?",
+        "Halve it, then square that result. What number do you get?",
+        "If you ADD that number, the expression changes value. What must you do to keep it equal?",
+        "Write the first three terms as a squared bracket. What is inside the bracket?",
+        "Expand your bracket back out to check -- do you recover the original?"
+      ],
+      "when_stuck": "If the leading coefficient is not 1, factor it out of the first two terms before you start."
+    },
+    {
+      "id": "radical-equations",
+      "name": "Equations With Radicals",
+      "topic": "algebra-foundations",
+      "prereqs": [
+        "linear-equations"
+      ],
+      "keywords": [
+        "square root equation",
+        "radical equation",
+        "extraneous solution",
+        "squaring both sides"
+      ],
+      "plain": "Isolate the radical, then square both sides to remove it. Squaring can invent solutions that do not actually work, so checking is not optional here -- it is part of the method.",
+      "ask": "Is the radical alone on one side of {expr}? If not, what do you need to move first?",
+      "rule": "If sqrt(A) = B, then A = B^2 -- but every solution must be checked in the original.",
+      "why": "Squaring is not reversible. Both 3 and -3 square to 9, so squaring an equation can create solutions that only satisfy the squared version, not the original.",
+      "example": {
+        "problem": "Solve sqrt(x + 3) = x - 3",
+        "steps": [
+          "Square both sides: x + 3 = (x-3)^2 = x^2 - 6x + 9",
+          "Rearrange: x^2 - 7x + 6 = 0, so (x-1)(x-6) = 0, giving x = 1 or x = 6",
+          "Check x = 1: sqrt(4) = 2, but x - 3 = -2. FAILS.",
+          "Check x = 6: sqrt(9) = 3, and x - 3 = 3. Works.",
+          "Only x = 6 is a solution."
+        ],
+        "note": "x = 1 is extraneous -- it solves the squared equation but not the original."
+      },
+      "mistake": "Skipping the check. Extraneous solutions look completely normal until you test them.",
+      "questions": [
+        "Is the radical alone on one side of {expr}? If not, what do you need to move first?",
+        "Square both sides. What does the equation become?",
+        "Solve it. What values do you get?",
+        "Now substitute EACH one back into the ORIGINAL equation. Do they all actually work?",
+        "If one fails -- why do you think squaring produced a value that does not satisfy the original?"
+      ],
+      "when_stuck": "If checking rejects every candidate, the equation genuinely has no solution."
+    },
+    {
+      "id": "equations-quadratic-in-form",
+      "name": "Equations Quadratic in Form",
+      "topic": "polynomials",
+      "prereqs": [
+        "factoring-quadratic-simple"
+      ],
+      "keywords": [
+        "quadratic in form",
+        "u substitution",
+        "x^4",
+        "disguised quadratic"
+      ],
+      "plain": "Some equations are quadratics wearing a costume. If you can spot one power that is exactly double another, substitute a single letter for the smaller one and an ordinary quadratic appears.",
+      "ask": "Look at the exponents in {expr}. Is one of them exactly double another?",
+      "rule": "If the equation has the form a(f(x))^2 + b(f(x)) + c = 0, let u = f(x) and solve the quadratic in u.",
+      "why": "Nothing new is happening -- you are renaming a chunk of the expression so its quadratic structure becomes visible. The substitution is bookkeeping, not maths.",
+      "example": {
+        "problem": "Solve x^4 - 5x^2 + 4 = 0",
+        "steps": [
+          "4 is double 2, so let u = x^2. Then x^4 = u^2.",
+          "u^2 - 5u + 4 = 0, so (u-1)(u-4) = 0, giving u = 1 or u = 4",
+          "Substitute back: x^2 = 1 gives x = 1 or -1; x^2 = 4 gives x = 2 or -2",
+          "Four solutions: -2, -1, 1, 2"
+        ],
+        "note": "A degree-4 equation can have up to 4 solutions -- if you only found 2, you probably stopped at u."
+      },
+      "mistake": "Solving for u and stopping. u is not the answer; you must substitute back and solve for x.",
+      "questions": [
+        "Look at the exponents in {expr}. Is one of them exactly double another?",
+        "If you let u stand for the smaller power, what does the larger power become in terms of u?",
+        "Rewrite the whole equation in u. What familiar shape do you have now?",
+        "Solve for u -- then remember you are not finished. What do you still have to do?"
+      ]
+    },
+    {
+      "id": "function-notation",
+      "name": "Function Notation and Evaluation",
+      "topic": "functions",
+      "prereqs": [],
+      "keywords": [
+        "function notation",
+        "f of x",
+        "evaluate function",
+        "f(2)",
+        "plug in"
+      ],
+      "plain": "f(x) is not multiplication. It is a name and an input. f(2) means 'run the machine called f on the number 2' -- so wherever you see x in the rule, you write 2.",
+      "ask": "In your function, what does the letter inside the brackets represent?",
+      "rule": "f(a) means: replace every x in the definition of f with a.",
+      "why": "A function is a rule that takes one input and returns exactly one output. The notation just names the rule so you can talk about it.",
+      "example": {
+        "problem": "If f(x) = x^2 - 3x, find f(-2)",
+        "steps": [
+          "Replace every x with (-2), keeping the brackets",
+          "f(-2) = (-2)^2 - 3(-2)",
+          "= 4 + 6 = 10"
+        ],
+        "note": "Those brackets around -2 are what stop the sign errors."
+      },
+      "mistake": "Treating f(x) as f times x, or forgetting brackets when substituting a negative: f(-2) with x^2 needs (-2)^2 = 4, not -4.",
+      "questions": [
+        "In your function, what does the letter inside the brackets represent?",
+        "Every place x appears in the rule, what are you going to put instead?",
+        "Substitute carefully -- especially inside any powers or brackets. What do you get?",
+        "If the input were something like (a + 1) instead of a number, what would change about how carefully you substitute?"
+      ]
+    },
+    {
+      "id": "domain-and-range",
+      "name": "Domain and Range",
+      "topic": "functions",
+      "prereqs": [
+        "function-notation"
+      ],
+      "keywords": [
+        "domain",
+        "range",
+        "what values allowed",
+        "output values"
+      ],
+      "plain": "Domain is every input the function is allowed to take. Range is every output it can actually produce. Only three things ever break an input: division by zero, even roots of negatives, and logs of non-positives.",
+      "ask": "Look at your function. Does it contain a fraction, an even root, or a logarithm?",
+      "rule": "Domain: all x where the rule is defined. Excluded: denominator = 0, even root of a negative, log of something <= 0.",
+      "why": "A function must give exactly one output for each input. Where the rule cannot produce a real number, the input simply is not in the domain.",
+      "example": {
+        "problem": "Find the domain of f(x) = sqrt(x - 4)",
+        "steps": [
+          "An even root cannot take a negative",
+          "So x - 4 >= 0",
+          "x >= 4, or [4, infinity)"
+        ],
+        "note": "Range here is [0, infinity), since a square root never returns a negative."
+      },
+      "mistake": "Finding the domain but forgetting the range, or assuming the range is all reals when the graph clearly stops somewhere.",
+      "questions": [
+        "Look at your function. Does it contain a fraction, an even root, or a logarithm?",
+        "For each one you found: what inputs would break it?",
+        "Exclude those. What is left is your domain -- can you write it in interval notation?",
+        "Now the range: as x runs over the domain, what values can the output actually reach? Sketching a rough graph helps here."
+      ]
+    },
+    {
+      "id": "graph-transformations",
+      "name": "Transformations of Graphs",
+      "topic": "functions",
+      "prereqs": [
+        "function-notation"
+      ],
+      "keywords": [
+        "shift",
+        "translate",
+        "stretch",
+        "reflect",
+        "transformation",
+        "graph moves"
+      ],
+      "plain": "Changes INSIDE the brackets affect x and behave backwards from what you expect. Changes OUTSIDE affect y and behave exactly as you expect.",
+      "ask": "Compare your function to its parent. Is the change inside the brackets or outside?",
+      "rule": "y = a*f(b(x - h)) + k :  h shifts right, k shifts up, a stretches vertically (flips if negative), b compresses horizontally.",
+      "why": "Inside changes look backwards because they change the input before the function sees it. f(x - 3) reaches its usual value only when x is 3 bigger than usual -- so the graph slides right.",
+      "example": {
+        "problem": "Describe y = (x - 2)^2 + 3 compared to y = x^2",
+        "steps": [
+          "(x - 2) is inside, so it is horizontal and backwards: shift RIGHT 2",
+          "+3 is outside, so vertical and as it looks: shift UP 3",
+          "Vertex moves from (0,0) to (2,3)"
+        ],
+        "note": "Track one point -- usually the vertex or origin -- and the whole graph follows."
+      },
+      "mistake": "Getting the direction of horizontal shifts backwards. f(x + 2) moves LEFT, not right.",
+      "questions": [
+        "Compare your function to its parent. Is the change inside the brackets or outside?",
+        "If it is inside, it affects x -- and inside changes do the OPPOSITE of what they look like. Which direction does that move the graph?",
+        "If it is outside, it affects y and does what it looks like. Up, down, stretched, or flipped?",
+        "Pick one point on the parent graph, apply your transformation to it, and check it lands where you predicted."
+      ]
+    },
+    {
+      "id": "quadratic-vertex-form",
+      "name": "Quadratic Functions and Vertex Form",
+      "topic": "functions",
+      "prereqs": [
+        "completing-the-square",
+        "graph-transformations"
+      ],
+      "keywords": [
+        "vertex",
+        "vertex form",
+        "parabola",
+        "maximum",
+        "minimum",
+        "axis of symmetry"
+      ],
+      "plain": "Standard form tells you the y-intercept. Vertex form tells you the turning point. Completing the square converts one to the other, which is how you find a maximum or minimum.",
+      "ask": "Does your parabola open up or down? How can you tell from the equation alone?",
+      "rule": "y = a(x - h)^2 + k has vertex (h, k). Alternatively h = -b/(2a).",
+      "why": "A parabola is symmetric about a vertical line through its vertex. Vertex form is just the standard parabola shifted so its turning point sits at (h, k).",
+      "example": {
+        "problem": "Find the vertex of y = x^2 - 6x + 5",
+        "steps": [
+          "Complete the square: x^2 - 6x = (x-3)^2 - 9",
+          "y = (x-3)^2 - 9 + 5 = (x-3)^2 - 4",
+          "Vertex is (3, -4), and a = 1 > 0 so it is a minimum"
+        ],
+        "note": "Check with h = -b/(2a) = 6/2 = 3. Agrees."
+      },
+      "mistake": "Reading the vertex as (h, k) but taking h with the wrong sign. In (x - 3)^2 the vertex x-coordinate is +3.",
+      "questions": [
+        "Does your parabola open up or down? How can you tell from the equation alone?",
+        "That tells you whether the vertex is a minimum or a maximum -- which is it?",
+        "Convert to vertex form by completing the square. What are h and k?",
+        "What does the vertex tell you about the maximum or minimum value, and where it happens?"
+      ]
+    },
+    {
+      "id": "polynomial-long-division",
+      "name": "Polynomial Long Division",
+      "topic": "polynomials",
+      "prereqs": [
+        "distributive-property"
+      ],
+      "keywords": [
+        "long division",
+        "divide polynomials",
+        "quotient remainder"
+      ],
+      "plain": "It is the same procedure as long division with numbers. Divide the leading terms, multiply back, subtract, bring down, repeat -- until what is left has a lower degree than the divisor.",
+      "ask": "What is the leading term of the dividend, and what is the leading term of the divisor?",
+      "rule": "dividend = quotient x divisor + remainder,  with degree(remainder) < degree(divisor).",
+      "why": "Division asks how many copies of the divisor fit inside the dividend. Working from the highest power down guarantees each step removes the current leading term.",
+      "example": {
+        "problem": "Divide x^2 + 5x + 6 by x + 2",
+        "steps": [
+          "x^2 / x = x. First quotient term is x.",
+          "x(x + 2) = x^2 + 2x. Subtract: (x^2 + 5x) - (x^2 + 2x) = 3x. Bring down 6.",
+          "3x / x = 3. Next term is 3.",
+          "3(x + 2) = 3x + 6. Subtract: 0. No remainder.",
+          "Quotient: x + 3"
+        ],
+        "note": "Check: (x + 3)(x + 2) = x^2 + 5x + 6. Correct."
+      },
+      "mistake": "Sign errors on subtraction -- you are subtracting an entire expression, so every term inside changes sign. And forgetting placeholder terms for missing powers.",
+      "questions": [
+        "What is the leading term of the dividend, and what is the leading term of the divisor?",
+        "What do you multiply the divisor's leading term by to get the dividend's? That is your first quotient term.",
+        "Multiply the whole divisor by it and subtract. Careful -- what happens to the signs when you subtract a whole expression?",
+        "Is the degree of what remains still at least as big as the divisor's? If so, repeat. If not, you are done -- what is left is the remainder.",
+        "Check: does (quotient x divisor) + remainder give you back the original?"
+      ],
+      "when_stuck": "Write in placeholders like 0x^2 for any missing power, or your columns will drift out of line."
+    },
+    {
+      "id": "synthetic-division",
+      "name": "Synthetic Division",
+      "topic": "polynomials",
+      "prereqs": [
+        "polynomial-long-division"
+      ],
+      "keywords": [
+        "synthetic division",
+        "divide by x minus c",
+        "remainder theorem"
+      ],
+      "plain": "A shorthand for long division that only works when you are dividing by x - c. You write down just the coefficients and use addition instead of subtraction.",
+      "ask": "What is c? Careful with the sign -- if you are dividing by (x + 3), what is c?",
+      "rule": "To divide by (x - c): bring down, multiply by c, add, repeat. Last value is the remainder.",
+      "why": "It is ordinary long division with the bookkeeping stripped away -- multiplying by c and adding does the same work as multiply-and-subtract, because the sign is already absorbed into c.",
+      "example": {
+        "problem": "Divide x^3 - 4x + 1 by x - 2",
+        "steps": [
+          "c = 2. Coefficients: 1, 0, -4, 1  (note the 0 for the missing x^2)",
+          "Bring down 1. 1x2 = 2, add to 0 -> 2. 2x2 = 4, add to -4 -> 0. 0x2 = 0, add to 1 -> 1.",
+          "Quotient: x^2 + 2x + 0, remainder 1"
+        ],
+        "note": "The remainder 1 also equals f(2) -- that is the Remainder Theorem."
+      },
+      "mistake": "Getting the sign of c wrong. Dividing by (x + 3) means c = -3. And forgetting zeros for missing powers.",
+      "questions": [
+        "What is c? Careful with the sign -- if you are dividing by (x + 3), what is c?",
+        "Write out the coefficients of the dividend. Are any powers missing? What must you write for those?",
+        "Bring down the first coefficient, multiply by c, add to the next. Keep going. What numbers do you get?",
+        "The last number is the remainder. What do the others represent, and what degree does the quotient have?"
+      ]
+    },
+    {
+      "id": "inverse-functions",
+      "name": "Inverse Functions",
+      "topic": "functions",
+      "prereqs": [
+        "function-notation",
+        "domain-and-range"
+      ],
+      "keywords": [
+        "inverse function",
+        "f inverse",
+        "swap x and y",
+        "one to one",
+        "horizontal line test"
+      ],
+      "plain": "An inverse undoes what the function did. To find it, swap x and y and solve for y again. Only functions that never repeat an output can be inverted.",
+      "ask": "Does your function ever give the same output for two different inputs? How could you check that from its graph?",
+      "rule": "f-inverse(f(x)) = x  and  f(f-inverse(x)) = x. Find it by swapping x and y, then solving for y.",
+      "why": "A function maps inputs to outputs; the inverse walks the same arrows backwards. If two inputs shared an output, the backwards arrow would not know where to go -- which is why it must be one-to-one.",
+      "example": {
+        "problem": "Find the inverse of f(x) = 2x + 5",
+        "steps": [
+          "Write y = 2x + 5, then swap: x = 2y + 5",
+          "Solve for y: x - 5 = 2y, so y = (x - 5)/2",
+          "f-inverse(x) = (x - 5)/2"
+        ],
+        "note": "Check: f(f-inverse(x)) = 2((x-5)/2) + 5 = x. Correct."
+      },
+      "mistake": "Writing f-inverse as 1/f. The -1 is notation for 'inverse', not an exponent.",
+      "questions": [
+        "Does your function ever give the same output for two different inputs? How could you check that from its graph?",
+        "If it passes that test, swap x and y in the equation. What do you have?",
+        "Now solve for y. What operations do you need to undo, and in what order?",
+        "Verify it: compute f(f-inverse(x)). If your inverse is right, what should you get?"
+      ],
+      "when_stuck": "If the function fails the horizontal line test, you can still invert it by restricting the domain -- that is exactly what is done for the inverse trig functions."
+    },
+    {
+      "id": "exponential-functions",
+      "name": "Exponential Functions and Their Graphs",
+      "topic": "exponentials",
+      "prereqs": [
+        "exponent-rules"
+      ],
+      "keywords": [
+        "exponential function",
+        "growth",
+        "decay",
+        "asymptote",
+        "b to the x"
+      ],
+      "plain": "In an exponential the variable is the exponent, not the base. The base decides everything: bigger than 1 and it grows, between 0 and 1 and it decays.",
+      "ask": "In your function, is the variable in the base or in the exponent? Which makes it exponential?",
+      "rule": "f(x) = b^x with b > 0, b != 1. Growth if b > 1, decay if 0 < b < 1. Horizontal asymptote y = 0.",
+      "why": "Each step of 1 in x multiplies the output by b. Repeated multiplication is what makes exponential change so much faster than linear change.",
+      "example": {
+        "problem": "Describe f(x) = 3^x",
+        "steps": [
+          "Base 3 > 1, so it grows",
+          "f(0) = 3^0 = 1, so it passes through (0, 1)",
+          "As x -> -infinity, 3^x -> 0 but never touches it: asymptote y = 0"
+        ],
+        "note": "Every exponential of this form passes through (0, 1), because anything to the power 0 is 1."
+      },
+      "mistake": "Confusing x^2 (variable in the base -- a polynomial) with 2^x (variable in the exponent -- exponential). They behave completely differently.",
+      "questions": [
+        "In your function, is the variable in the base or in the exponent? Which makes it exponential?",
+        "What is the base? Is it bigger than 1 or between 0 and 1 -- so does this grow or decay?",
+        "What is the output when x = 0? What does that tell you about where the graph crosses the y-axis?",
+        "As x heads to negative infinity, what happens to the value? Does it ever actually reach zero?"
+      ]
+    },
+    {
+      "id": "change-of-base",
+      "name": "Change of Base Formula",
+      "topic": "logarithms",
+      "prereqs": [
+        "log-definition"
+      ],
+      "keywords": [
+        "change of base",
+        "log base 7",
+        "calculator log",
+        "different base"
+      ],
+      "plain": "Your calculator only has log base 10 and ln. The change of base formula lets you compute a log in any base using either of them.",
+      "ask": "What base is your logarithm in? Does your calculator have a button for it?",
+      "rule": "log_b(x) = log(x) / log(b) = ln(x) / ln(b)",
+      "why": "It comes from the definition. If y = log_b(x) then b^y = x. Take log of both sides: y*log(b) = log(x), so y = log(x)/log(b).",
+      "example": {
+        "problem": "Compute log_5(20)",
+        "steps": [
+          "log_5(20) = log(20) / log(5)",
+          "= 1.301 / 0.699",
+          "= about 1.861"
+        ],
+        "note": "Check: 5^1.861 should be about 20. It is."
+      },
+      "mistake": "Putting the base on top. It is log of the NUMBER divided by log of the BASE.",
+      "questions": [
+        "What base is your logarithm in? Does your calculator have a button for it?",
+        "Write it as a fraction of two logs in a base your calculator does have. Which log goes on top?",
+        "Does it matter whether you use log or ln for both? Try it both ways and compare.",
+        "Sanity-check: estimate roughly what power of your base gives the number. Is your answer near that?"
+      ],
+      "when_stuck": "If it still looks wrong, check you have not swapped the number and the base -- that is the usual cause."
+    },
+    {
+      "id": "solving-log-equations",
+      "name": "Solving Logarithmic Equations",
+      "topic": "logarithms",
+      "prereqs": [
+        "log-definition",
+        "log-product-rule"
+      ],
+      "keywords": [
+        "solve log equation",
+        "logarithmic equation",
+        "domain of log",
+        "extraneous log"
+      ],
+      "plain": "Condense everything into a single log using the log rules, then convert to exponential form. Because logs of negatives do not exist, every answer must be checked.",
+      "ask": "How many separate log terms does your equation have? Can you combine them into one using the product or quotient rule?",
+      "rule": "Condense to log_b(A) = c, then rewrite as A = b^c. Check every answer in the original.",
+      "why": "Logs are only defined for positive inputs. Combining log terms can widen what looks solvable, so the algebra may produce values the original expression could never accept.",
+      "example": {
+        "problem": "Solve log(x) + log(x - 3) = 1",
+        "steps": [
+          "Product rule: log(x(x-3)) = 1",
+          "Exponential form (base 10): x(x-3) = 10",
+          "x^2 - 3x - 10 = 0, so (x-5)(x+2) = 0, giving x = 5 or x = -2",
+          "Check x = 5: log(5) + log(2) works. Check x = -2: log(-2) does not exist. Reject it.",
+          "Only x = 5"
+        ],
+        "note": "x = -2 satisfies the quadratic perfectly, and is still not a solution."
+      },
+      "mistake": "Not checking. An answer that makes any log's argument zero or negative must be discarded, however clean it looks.",
+      "questions": [
+        "How many separate log terms does your equation have? Can you combine them into one using the product or quotient rule?",
+        "Once you have a single log, rewrite it in exponential form. What does the equation become?",
+        "Solve it. What values do you get?",
+        "Now put each one back into the ORIGINAL equation. Does every log still have a positive number inside?",
+        "If one produces a log of a negative -- what does that tell you about that solution?"
+      ]
+    },
+    {
+      "id": "angles-degrees-radians",
+      "name": "Angles: Degrees and Radians",
+      "topic": "trigonometry",
+      "prereqs": [],
+      "keywords": [
+        "radians",
+        "degrees",
+        "convert angle",
+        "pi over 180",
+        "arc length"
+      ],
+      "plain": "A radian is the angle you get when the arc length equals the radius. Since a full circle has circumference 2*pi*r, a full turn is 2*pi radians -- which is why 180 degrees equals pi radians.",
+      "ask": "How many degrees are in a full circle? How many radians?",
+      "rule": "180 degrees = pi radians.  degrees -> radians: multiply by pi/180.  radians -> degrees: multiply by 180/pi.",
+      "why": "Radians measure angle by arc length in units of the radius, which makes them dimensionless and is why calculus formulas only work in radians.",
+      "example": {
+        "problem": "Convert 60 degrees to radians",
+        "steps": [
+          "Want radians, so cancel degrees: multiply by pi/180",
+          "60 x pi/180 = pi/3",
+          "About 1.047 radians"
+        ],
+        "note": "One radian is roughly 57 degrees -- useful for sanity-checking."
+      },
+      "mistake": "Multiplying by the wrong fraction. Decide by asking which unit you want to cancel.",
+      "questions": [
+        "How many degrees are in a full circle? How many radians?",
+        "So what single fraction converts one to the other?",
+        "Apply it to your angle. Do you multiply by pi/180 or by 180/pi -- and how can you decide without memorising?",
+        "Sanity-check: is your answer in the right ballpark? Roughly how many degrees is one radian?"
+      ],
+      "when_stuck": "If you are unsure which way to multiply, write the units as fractions and cancel them like algebra."
+    },
+    {
+      "id": "unit-circle",
+      "name": "The Unit Circle",
+      "topic": "trigonometry",
+      "prereqs": [
+        "angles-degrees-radians"
+      ],
+      "keywords": [
+        "unit circle",
+        "special angles",
+        "sin 30",
+        "cos 60",
+        "exact values",
+        "quadrant"
+      ],
+      "plain": "On a circle of radius 1, the point at angle t has coordinates (cos t, sin t). Cosine is the horizontal distance, sine is the vertical one. That single picture generates every exact value you need.",
+      "ask": "On the unit circle, which coordinate is cosine and which is sine?",
+      "rule": "P(t) = (cos t, sin t) on the unit circle. sin^2 t + cos^2 t = 1.",
+      "why": "The unit circle extends right-triangle trig to any angle. On radius 1 the hypotenuse is 1, so cosine = adjacent/1 = the x-coordinate, and sine = opposite/1 = the y-coordinate.",
+      "example": {
+        "problem": "Find cos(120 degrees)",
+        "steps": [
+          "120 degrees is in quadrant II, where x is negative -- so cosine is negative",
+          "Its reference angle is 180 - 120 = 60 degrees",
+          "cos(60) = 1/2",
+          "So cos(120) = -1/2"
+        ],
+        "note": "Sign from the quadrant, size from the reference angle. Always in that order."
+      },
+      "mistake": "Mixing up which coordinate is which. Cosine comes first alphabetically and is the x-coordinate -- a useful anchor.",
+      "questions": [
+        "On the unit circle, which coordinate is cosine and which is sine?",
+        "Which quadrant is your angle in? In that quadrant, is x positive or negative? What about y?",
+        "So what are the signs of sine and cosine for your angle -- before you work out any numbers?",
+        "Now the size: is your angle related to 30, 45 or 60 degrees? What is the exact value there?",
+        "Combine the sign and the size. What is your answer?"
+      ]
+    },
+    {
+      "id": "reference-angles",
+      "name": "Reference Angles",
+      "topic": "trigonometry",
+      "prereqs": [
+        "unit-circle"
+      ],
+      "keywords": [
+        "reference angle",
+        "acute angle",
+        "quadrant sign",
+        "related angle"
+      ],
+      "plain": "The reference angle is the acute angle between your angle's terminal side and the x-axis. It gives you the SIZE of the trig value; the quadrant gives you the SIGN.",
+      "ask": "Which quadrant does your angle land in? Sketch it if that helps.",
+      "rule": "Q1: t.  Q2: 180 - t.  Q3: t - 180.  Q4: 360 - t.  (Use pi instead of 180 for radians.)",
+      "why": "Every angle's terminal side makes some acute angle with the x-axis, and the triangle formed there is congruent to the one in quadrant I. Only the signs of the coordinates differ.",
+      "example": {
+        "problem": "Find the reference angle for 210 degrees",
+        "steps": [
+          "210 is in quadrant III",
+          "Distance from the x-axis at 180: 210 - 180 = 30 degrees",
+          "Reference angle is 30 degrees",
+          "In QIII sine is negative, so sin(210) = -1/2"
+        ],
+        "note": "'All Students Take Calculus' tells you which function is positive in each quadrant."
+      },
+      "mistake": "Measuring to the y-axis instead of the x-axis, or forgetting the sign entirely and giving a positive answer in a quadrant where it should be negative.",
+      "questions": [
+        "Which quadrant does your angle land in? Sketch it if that helps.",
+        "How far is the terminal side from the nearest part of the x-axis -- not the y-axis?",
+        "That distance is your reference angle. What is it?",
+        "Now the sign: in that quadrant, is the function you want positive or negative?",
+        "Put the two together. What is the exact value?"
+      ]
+    },
+    {
+      "id": "right-triangle-trig",
+      "name": "Right Triangle Trigonometry",
+      "topic": "trigonometry",
+      "prereqs": [],
+      "keywords": [
+        "sohcahtoa",
+        "opposite adjacent hypotenuse",
+        "solve triangle",
+        "right triangle"
+      ],
+      "plain": "In a right triangle the three basic ratios are fixed by the angle alone. Which one you use depends entirely on which two sides you care about.",
+      "ask": "Label your triangle from the angle you are working with: which side is opposite, which is adjacent, which is the hypotenuse?",
+      "rule": "sin = opposite/hypotenuse,  cos = adjacent/hypotenuse,  tan = opposite/adjacent.",
+      "why": "For a fixed angle, all right triangles with that angle are similar, so these ratios do not depend on the triangle's size -- only on the angle.",
+      "example": {
+        "problem": "Find x, the side opposite a 30 degree angle, with hypotenuse 10",
+        "steps": [
+          "Opposite and hypotenuse -> that is sine",
+          "sin(30) = x/10",
+          "x = 10 x sin(30) = 10 x 0.5 = 5"
+        ],
+        "note": "5 is less than the hypotenuse 10, as it must be."
+      },
+      "mistake": "Labelling opposite and adjacent from the wrong angle. They swap depending on which angle you stand at. The hypotenuse never moves.",
+      "questions": [
+        "Label your triangle from the angle you are working with: which side is opposite, which is adjacent, which is the hypotenuse?",
+        "Which two of those three does your problem actually involve -- the one you know and the one you want?",
+        "Which ratio connects exactly those two sides?",
+        "Set up the equation and solve. Then check: is your answer sensible for a triangle? Is the hypotenuse still the longest side?"
+      ],
+      "when_stuck": "Check your calculator is in the right mode -- degrees or radians. It is the most common source of wrong answers here."
+    },
+    {
+      "id": "trig-graphs",
+      "name": "Graphs of Trigonometric Functions",
+      "topic": "trigonometry",
+      "prereqs": [
+        "unit-circle",
+        "graph-transformations"
+      ],
+      "keywords": [
+        "amplitude",
+        "period",
+        "phase shift",
+        "sine graph",
+        "cosine graph",
+        "midline"
+      ],
+      "plain": "Sine and cosine repeat forever. Amplitude sets how tall, period sets how wide one full cycle is, and the rest is ordinary graph shifting.",
+      "ask": "In y = a*sin(b(x - c)) + d, which number controls the height of the wave?",
+      "rule": "y = a*sin(b(x - c)) + d :  amplitude |a|, period 2*pi/b, phase shift c, midline y = d.",
+      "why": "The unit circle point goes round once every 2*pi. Multiplying the input by b makes it go round b times as fast, so one cycle takes 2*pi/b.",
+      "example": {
+        "problem": "Describe y = 3*sin(2x)",
+        "steps": [
+          "a = 3, so amplitude 3: it runs from -3 to 3",
+          "b = 2, so period = 2*pi/2 = pi",
+          "Midline y = 0, no phase shift"
+        ],
+        "note": "Two full waves now fit in the space one used to occupy."
+      },
+      "mistake": "Reading b as the period. b is how many cycles fit in 2*pi -- the period is 2*pi divided by b.",
+      "questions": [
+        "In y = a*sin(b(x - c)) + d, which number controls the height of the wave?",
+        "Which one controls how fast it repeats -- and how do you turn it into the actual period?",
+        "What is the midline of your graph, and what shifts it?",
+        "Sketch one full cycle using those numbers. Does the maximum come out where you expect?"
+      ]
+    },
+    {
+      "id": "inverse-trig",
+      "name": "Inverse Trigonometric Functions",
+      "topic": "trigonometry",
+      "prereqs": [
+        "unit-circle",
+        "inverse-functions"
+      ],
+      "keywords": [
+        "arcsin",
+        "inverse sine",
+        "arccos",
+        "arctan",
+        "restricted range"
+      ],
+      "plain": "Sine takes infinitely many angles to the same value, so it cannot be inverted as-is. We restrict it to one stretch where it never repeats -- and that restriction is why arcsin has such a specific range.",
+      "ask": "How many angles have a sine of 1/2? Why is that a problem for defining an inverse?",
+      "rule": "arcsin: range [-pi/2, pi/2].  arccos: range [0, pi].  arctan: range (-pi/2, pi/2).",
+      "why": "A function can only be inverted if it is one-to-one. Restricting sine to [-pi/2, pi/2] keeps one full sweep from -1 to 1 with no repeats, so the inverse is well defined.",
+      "example": {
+        "problem": "Find arccos(-1/2)",
+        "steps": [
+          "arccos must land in [0, pi]",
+          "Which angle in that range has cosine -1/2? Cosine is negative in QII.",
+          "Reference angle pi/3, so the angle is pi - pi/3 = 2*pi/3"
+        ],
+        "note": "2*pi/3 is inside [0, pi], so it is the valid answer."
+      },
+      "mistake": "Giving an angle outside the allowed range. arcsin(-1/2) is -pi/6, not 11*pi/6, even though both have the same sine.",
+      "questions": [
+        "How many angles have a sine of 1/2? Why is that a problem for defining an inverse?",
+        "To fix it we restrict the domain. For arcsin, which single stretch of angles is allowed?",
+        "Your answer must land inside that stretch. Which candidate angle qualifies?",
+        "Check it: take the sine of your answer. Do you get back what you started with?"
+      ]
+    },
+    {
+      "id": "sum-difference-identities",
+      "name": "Sum and Difference Identities",
+      "topic": "trigonometry",
+      "prereqs": [
+        "pythagorean-identity",
+        "unit-circle"
+      ],
+      "keywords": [
+        "sum identity",
+        "difference identity",
+        "sin(a+b)",
+        "cos(a-b)",
+        "addition formula"
+      ],
+      "plain": "sin(A + B) is NOT sin A + sin B. There is a specific formula, and it lets you find exact values for angles like 75 degrees by splitting them into ones you already know.",
+      "ask": "Test the naive guess first: is sin(30 + 60) the same as sin(30) + sin(60)? Work out both sides.",
+      "rule": "sin(A +/- B) = sinA cosB +/- cosA sinB.    cos(A +/- B) = cosA cosB -/+ sinA sinB.",
+      "why": "They come from rotating a point on the unit circle by A and then by B, and comparing coordinates with a single rotation by A + B.",
+      "example": {
+        "problem": "Find sin(75 degrees)",
+        "steps": [
+          "75 = 45 + 30, both of which we know exactly",
+          "sin(45+30) = sin45 cos30 + cos45 sin30",
+          "= (sqrt2/2)(sqrt3/2) + (sqrt2/2)(1/2)",
+          "= (sqrt6 + sqrt2)/4"
+        ],
+        "note": "About 0.966 -- and sin(75) on a calculator agrees."
+      },
+      "mistake": "Assuming the function distributes over addition, and getting the sign backwards in the cosine formula -- cos(A + B) uses a MINUS.",
+      "questions": [
+        "Test the naive guess first: is sin(30 + 60) the same as sin(30) + sin(60)? Work out both sides.",
+        "So the formula must be something else. For sine, notice the pattern: it mixes sine of one with cosine of the other. Can you write it down?",
+        "For cosine the sign flips relative to the operation. Which way round is it?",
+        "Now split your angle into two you know exactly. Which pair works?",
+        "Substitute and simplify. Does your answer look reasonable compared to a calculator value?"
+      ]
+    },
+    {
+      "id": "double-half-angle",
+      "name": "Double-Angle and Half-Angle Identities",
+      "topic": "trigonometry",
+      "prereqs": [
+        "sum-difference-identities"
+      ],
+      "keywords": [
+        "double angle",
+        "half angle",
+        "sin 2x",
+        "cos 2x",
+        "power reduction"
+      ],
+      "plain": "The double-angle formulas are just the sum formulas with both angles the same. Cosine has three versions of its double-angle formula, and choosing the right one saves a lot of work.",
+      "ask": "Take the sum formula for sin(A + B) and set B equal to A. What do you get?",
+      "rule": "sin(2A) = 2 sinA cosA.    cos(2A) = cos^2A - sin^2A = 2cos^2A - 1 = 1 - 2sin^2A.",
+      "why": "Nothing new -- set B = A in the sum identities. The three forms of cos(2A) come from substituting the Pythagorean identity in different directions.",
+      "example": {
+        "problem": "Simplify 2 sin(15) cos(15)",
+        "steps": [
+          "This matches the shape 2 sinA cosA with A = 15",
+          "So it equals sin(2 x 15) = sin(30)",
+          "= 1/2"
+        ],
+        "note": "Spotting the pattern turned an awkward product into an exact value."
+      },
+      "mistake": "Writing sin(2A) = 2 sin A. The 2 multiplies the ANGLE, not the function.",
+      "questions": [
+        "Take the sum formula for sin(A + B) and set B equal to A. What do you get?",
+        "Do the same for cos(A + B). What is the first version of cos(2A)?",
+        "Now use sin^2 + cos^2 = 1 to rewrite it in terms of cosine only, then sine only. Why might having three versions be useful?",
+        "For your problem: which version leaves you with the function you actually want?"
+      ],
+      "when_stuck": "If a problem mixes sin^2 and cos^2, the versions of cos(2A) are usually the tool that collapses it."
+    },
+    {
+      "id": "trig-equations",
+      "name": "Solving Trigonometric Equations",
+      "topic": "trigonometry",
+      "prereqs": [
+        "unit-circle",
+        "reference-angles"
+      ],
+      "keywords": [
+        "solve trig equation",
+        "all solutions",
+        "general solution",
+        "2pi n"
+      ],
+      "plain": "Isolate the trig function, find the angles in one full turn that work, then remember the function repeats -- so there are infinitely many solutions unless the question restricts the interval.",
+      "ask": "Get the trig function alone first. What does your equation reduce to?",
+      "rule": "Solve on [0, 2pi), then add 2*pi*n (or pi*n for tangent) for the general solution.",
+      "why": "Trig functions are periodic, so once you find one solution, shifting by a full period gives another. Two quadrants usually share a value, which is why you typically get two families of answers.",
+      "example": {
+        "problem": "Solve sin(x) = 1/2 on [0, 2pi)",
+        "steps": [
+          "Sine is positive in quadrants I and II",
+          "Reference angle: pi/6",
+          "QI: x = pi/6.  QII: x = pi - pi/6 = 5*pi/6",
+          "Two solutions: pi/6 and 5*pi/6"
+        ],
+        "note": "For the general solution you would write x = pi/6 + 2*pi*n or 5*pi/6 + 2*pi*n."
+      },
+      "mistake": "Finding only one of the two angles in a full turn. If sin x = 1/2, both pi/6 and 5*pi/6 work.",
+      "questions": [
+        "Get the trig function alone first. What does your equation reduce to?",
+        "In ONE full turn, how many angles have that value? Which quadrants are they in?",
+        "Find them using the reference angle and the quadrant signs. What are they?",
+        "Does the question ask for a specific interval, or for all solutions? If all -- what do you add to capture the repeats?",
+        "Substitute one answer back in. Does it satisfy the original equation?"
+      ],
+      "when_stuck": "If the equation is quadratic in the trig function, factor it first, then solve each piece separately."
+    },
+    {
+      "id": "law-of-sines",
+      "name": "The Law of Sines",
+      "topic": "trigonometry",
+      "prereqs": [
+        "right-triangle-trig"
+      ],
+      "keywords": [
+        "law of sines",
+        "non right triangle",
+        "AAS",
+        "ASA",
+        "ambiguous case",
+        "SSA"
+      ],
+      "plain": "For triangles without a right angle, each side is proportional to the sine of the angle opposite it. Use it whenever you have a matched side-and-angle pair.",
+      "ask": "Do you have a side and its OPPOSITE angle as a matched pair? That is what this law needs.",
+      "rule": "a/sin A = b/sin B = c/sin C",
+      "why": "Drop a perpendicular from one vertex. Its length can be computed two ways, one through each of the other angles -- and setting those equal gives the law.",
+      "example": {
+        "problem": "Find side b, given A = 30 degrees, a = 10, B = 45 degrees",
+        "steps": [
+          "Matched pair: a with A",
+          "b/sin(45) = 10/sin(30)",
+          "b = 10 x sin(45)/sin(30) = 10 x 0.707/0.5",
+          "b = about 14.1"
+        ],
+        "note": "b is larger than a, which fits -- the larger angle faces the larger side."
+      },
+      "mistake": "Using it without a matched pair, and missing the ambiguous SSA case where two different triangles satisfy the same data.",
+      "questions": [
+        "Do you have a side and its OPPOSITE angle as a matched pair? That is what this law needs.",
+        "Which other piece do you know, and which are you solving for?",
+        "Set up the proportion so your unknown is on top. Why does that make the algebra easier?",
+        "If you were given two sides and a non-included angle, pause: could a second triangle also fit these measurements? How would you check?"
+      ],
+      "when_stuck": "With two sides and a non-included angle, always test whether a second triangle is possible before answering."
+    },
+    {
+      "id": "law-of-cosines",
+      "name": "The Law of Cosines",
+      "topic": "trigonometry",
+      "prereqs": [
+        "right-triangle-trig"
+      ],
+      "keywords": [
+        "law of cosines",
+        "SAS",
+        "SSS",
+        "c squared equals",
+        "generalised pythagoras"
+      ],
+      "plain": "Pythagoras with a correction term for the angle. Use it when the Law of Sines cannot start -- three sides, or two sides and the angle between them.",
+      "ask": "What do you know: three sides, or two sides and the angle between them?",
+      "rule": "c^2 = a^2 + b^2 - 2ab*cos(C)",
+      "why": "When C is 90 degrees, cos C = 0 and the whole thing collapses to Pythagoras. The -2ab*cos C term measures exactly how far from right-angled the triangle is.",
+      "example": {
+        "problem": "Find c, given a = 5, b = 7, C = 60 degrees",
+        "steps": [
+          "c^2 = 25 + 49 - 2(5)(7)cos(60)",
+          "= 74 - 70(0.5) = 74 - 35 = 39",
+          "c = sqrt(39) = about 6.24"
+        ],
+        "note": "c sits between 5 and 7, which is plausible for a 60 degree included angle."
+      },
+      "mistake": "Sign slips with the -2ab cos C term, especially when the angle is obtuse and its cosine is negative.",
+      "questions": [
+        "What do you know: three sides, or two sides and the angle between them?",
+        "Write the formula so the side or angle you WANT is the one being isolated. Which arrangement do you need?",
+        "Notice the shape: it is Pythagoras plus an extra term. What happens to that term when the angle is 90 degrees?",
+        "Substitute and solve. Then check: does the longest side sit opposite the largest angle?"
+      ],
+      "when_stuck": "If you get a negative under the square root, re-check your arithmetic -- that cannot happen for a real triangle."
+    },
+    {
+      "id": "rational-exponents",
+      "name": "Rational Exponents and Radicals",
+      "topic": "exponentials",
+      "prereqs": [
+        "exponent-rules"
+      ],
+      "keywords": [
+        "rational exponent",
+        "fractional exponent",
+        "x to the 1/2",
+        "nth root",
+        "radical to exponent"
+      ],
+      "plain": "A fractional exponent is a root and a power at once. The denominator says which root; the numerator says which power.",
+      "ask": "In your fractional exponent, what does the DENOMINATOR tell you to do?",
+      "rule": "x^(m/n) = (nth root of x)^m = nth root of (x^m)",
+      "why": "It is forced by the exponent rules. If x^(1/2) times x^(1/2) = x^1 = x, then x^(1/2) must be whatever multiplies by itself to give x -- the square root.",
+      "example": {
+        "problem": "Evaluate 8^(2/3)",
+        "steps": [
+          "Denominator 3: take the cube root of 8, which is 2",
+          "Numerator 2: square it, giving 4",
+          "So 8^(2/3) = 4"
+        ],
+        "note": "Rooting first kept the numbers small. Doing 8^2 = 64 then cube-rooting gives 4 as well, but the arithmetic is uglier."
+      },
+      "mistake": "Swapping the roles: reading x^(2/3) as the square root cubed instead of the cube root squared.",
+      "questions": [
+        "In your fractional exponent, what does the DENOMINATOR tell you to do?",
+        "And the numerator?",
+        "You can do them in either order. Which order keeps the numbers smaller and easier?",
+        "Rewrite it as a radical to check you have read it correctly. Do both forms agree?"
+      ]
     }
   ]
 }

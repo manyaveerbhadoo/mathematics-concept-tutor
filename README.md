@@ -62,17 +62,39 @@ The student computes 17, sees it isn't a perfect square, and draws the conclusio
 
 A student has to consciously choose to be told. That friction is deliberate — the moment before you're given the answer is the moment you actually learn something.
 
+### It's a conversation, not a leaflet
+
+The bot asks **one question at a time**, waits, and reads the answer:
+
+> **Q3:** Which of those pairs adds up to −5?
+>
+> `/reply 1 and 6`
+>
+> **Not yet.** Your product is right — those two do multiply to 6. Now add them. Is that the middle coefficient you need? What does that tell you about the signs?
+
+SymPy checks the answer where it can. A wrong answer earns a **narrower question**, never a correction — and the correct pair is never named. A test enforces that: no nudge may contain the answer it's withholding.
+
 ### All commands
 
 | Command | For |
 |---|---|
+| `/stuck expression` | "I don't know what to do here" — starts the guided ladder |
 | `/step before after` | "I did this — what idea is that?" |
-| `/stuck expression` | "I don't know what to do here." |
 | `/ask question` | Plain English: *"why can I split a log of a product?"* |
+| `/reply answer` | Answers the question the bot just asked |
 | `/hint concept` | The rule behind it |
 | `/example concept` | One worked through |
+| `/progress` | Your own history — private to you |
 | `/concepts` | Everything the bot knows |
-| `/report` | Instructor only — anonymous weekly digest |
+| `/report` | Instructor only — class digest, gaps, worst-rated explanations |
+
+### It adapts when someone is stuck
+
+Come back to the same idea three times in a week and the bot stops repeating itself:
+
+> *You've come back to **Solving Trigonometric Equations** a few times this week. Let's drop one level — **Reference Angles** is what it's built on, and it usually turns out to be the real gap.*
+
+Students who are lost are usually lost one level below where they think they are.
 
 ---
 
@@ -129,6 +151,7 @@ setup_check.py         Preflight validation.
 
 mathcore/
   parser.py            Student text -> SymPy. Two modes (see below).
+  session.py           The conversation: state, answer checking, nudges.
   detect.py            Which concept does this step use?
   concepts.py          Loads the library; walks prerequisite chains.
   tutor.py             Decides what to actually say.
@@ -138,7 +161,8 @@ concepts/library.json  Every word the bot can say. Plain data.
 
 tests/
   test_parser.py       27 tests: messy input, malformed input, injection
-  test_concepts.py     46 tests: matching, prerequisites, content, teaching rule
+  test_concepts.py     102 tests: matching, prerequisites, content, teaching rule
+  test_session.py      39 tests: answer checking, the no-answer-leak rule
   benchmark_detect.py  45 labeled student steps — accuracy measurement
 ```
 
@@ -195,6 +219,11 @@ The library validates itself at startup too: unknown prerequisites and circular 
 - Student expressions are **never stored**. Only the concept ID.
 - No names, no handles, no message content.
 - `/report` shows aggregate counts only, and only to IDs in `INSTRUCTOR_IDS`.
+- `/progress` is visible only to the student who runs it, and is sent ephemerally.
+- **One exception, deliberately made:** questions the bot fails to match are stored
+  as raw text in a `gaps` table with **no user id at all** — not even the hashed one.
+  It exists purely as a ranked to-do list of concepts to add next, written by the
+  students the bot let down.
 
 The weekly digest tells an instructor where the class is stuck — *"47 questions about log properties this week"* — in time to act on it, rather than finding out at the midterm.
 
@@ -205,10 +234,16 @@ The weekly digest tells an instructor where the class is stuck — *"47 question
 | Test suite | Result |
 |---|---|
 | Parser — messy input, malformed input, injection | 27/27 |
-| Concept library — matching, prerequisites, content, teaching rule | 46/46 |
+| Concept library — matching, prerequisites, content, teaching rule | 102/102 |
+| Conversation — answer checking, no-answer-leak rule, session flow | 39/39 |
 | Detector benchmark — 45 labeled steps | 100% top-1 |
 
-16 concepts, 68 questions.
+**44 concepts, 180 questions**, covering all 29 lectures of the
+[UCI Math 1B department syllabus](https://www.math.uci.edu/sites/math.uci.edu/files/syllabus/lower_division/1B_syllabus.pdf)
+— linear and absolute-value equations, quadratics, functions and transformations,
+polynomial division, inverses, exponentials and logarithms, the unit circle,
+right-triangle and inverse trig, identities, trig equations, and the laws of
+sines and cosines.
 
 **Stated plainly:** 100% is measured on cases written by the author. Real student input is messier. The benchmark exists to be re-run against real steps once the bot is in front of a class — that number will be the honest one.
 

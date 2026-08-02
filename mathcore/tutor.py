@@ -255,6 +255,7 @@ class TutorResponse:
     log_concept_id: str = ""
     tailored_ask: str = ""
     values: dict = field(default_factory=dict)
+    expr: object = None          # the student's expression, for answer checking
 
     # -- TIER 1: questions only. This is what a student gets by default. ----
     def to_text(self, tier: str = "questions") -> str:
@@ -348,6 +349,7 @@ def _build(hits, math_expr=None):
         log_concept_id=concept.id,
         tailored_ask=personalise(concept.id, math_expr, x),
         values=fill_values(math_expr, x),
+        expr=math_expr,
     )
 
 
