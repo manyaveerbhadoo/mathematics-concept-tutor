@@ -1,5 +1,7 @@
 # Mathematics Concept Tutor
 
+[![tests](https://github.com/manyaveerbhadoo/mathematics-concept-tutor/actions/workflows/tests.yml/badge.svg)](https://github.com/manyaveerbhadoo/mathematics-concept-tutor/actions/workflows/tests.yml)
+
 **A Discord tutor that refuses to give answers — and asks the questions that make a student find their own.**
 
 Built for UCI **MATH 1B (Pre-Calculus II)** by Manyaveer Bhadoo, Learning Assistant, Fall 2026.
@@ -157,6 +159,8 @@ mathcore/
   tutor.py             Decides what to actually say.
   storage.py           Anonymous logging + rate limiting.
 
+  phrasing.py          Optional LLM layer. Off by default. Never sees answers.
+
 concepts/library.json  Every word the bot can say. Plain data.
 
 tests/
@@ -210,6 +214,19 @@ Append an entry to `concepts/library.json`. No code:
 **The one rule for writing questions:** never state a conclusion the student could reach. `test_concepts.py` enforces it — every concept needs 3+ questions, at least half must actually ask something, and any that hands over a conclusion fails the build.
 
 The library validates itself at startup too: unknown prerequisites and circular chains raise immediately rather than failing in front of a student.
+
+---
+
+## Running costs
+
+**Zero.** Discord bots are free, SymPy is open source, and the bot runs on your
+own machine. There is no paid service in the default path.
+
+`phrasing.py` can optionally call a language model for warmer replies, but it
+requires **two** deliberate switches — an `ANTHROPIC_API_KEY` *and*
+`MATHBOT_LLM=1`. With either missing it never makes a network call. An API key
+sitting in your environment for some other project cannot quietly start
+billing through this one.
 
 ---
 

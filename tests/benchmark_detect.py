@@ -145,4 +145,6 @@ def run(verbose=True):
 
 
 if __name__ == "__main__":
-    run()
+    # CI treats any regression as a failure, so the badge means something.
+    top1, total = run()
+    sys.exit(0 if top1 == total else 1)
