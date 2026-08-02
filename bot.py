@@ -100,8 +100,20 @@ class Feedback(discord.ui.View):
 
 
 async def _reply(interaction, text: str, ephemeral=False, view=None):
+    """Send a reply, splitting it if Discord's 2000-char limit demands it.
+
+    NOTE on `view`: discord.py declares it as `view: BaseView = MISSING` and
+    then runs `if view is not MISSING and not view.is_finished()`. Passing an
+    explicit None therefore blows up with AttributeError *after* the message
+    has already gone out -- which is exactly why every student was seeing a
+    perfectly good answer followed by "something went wrong on my end".
+    Only pass the argument when there is a real view.
+    """
     parts = _chunk(text)
-    await interaction.response.send_message(parts[0], ephemeral=ephemeral, view=view)
+    kw = {"ephemeral": ephemeral}
+    if view is not None:
+        kw["view"] = view
+    await interaction.response.send_message(parts[0], **kw)
     for p in parts[1:]:
         await interaction.followup.send(p, ephemeral=ephemeral)
 
@@ -299,13 +311,19 @@ async def on_ready():
 
 @tree.error
 async def on_error(interaction, error):
+    """Never interrupt a student who already got a good answer.
+
+    If the reply went out and something failed afterwards, that's my problem
+    to read in the log -- not something to put in front of a student who is
+    mid-thought. Only speak up if they got nothing at all.
+    """
     log.exception("command error", exc_info=error)
-    msg = "Something went wrong on my end — that's my bug, not your maths. Try again?"
+    if interaction.response.is_done():
+        return                      # they already have their answer; stay quiet
     try:
-        if interaction.response.is_done():
-            await interaction.followup.send(msg, ephemeral=True)
-        else:
-            await interaction.response.send_message(msg, ephemeral=True)
+        await interaction.response.send_message(
+            "That one tripped me up — give it another go? "
+            "It's my bug, not your maths.", ephemeral=True)
     except Exception:
         pass
 
